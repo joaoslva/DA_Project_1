@@ -1,5 +1,8 @@
 #include <iostream>
 #include <limits>
+#include "Station.h"
+#include <vector>
+#include "Csv_reader.h"
 
 void checkStay(bool& condition){
     std::string checkChoice;
@@ -34,6 +37,13 @@ void checkStay(bool& condition){
     }
 }
 int main() {
+    Csv_reader reader;
+    std::vector<Station> stations = reader.read_stations("../dataset/stations.csv");
+
+    std::vector<Network> networks=reader.read_network_csv("../dataset/network.csv");
+    for(Network network:networks){
+        std::cout<<network.getCapacity();
+    }
     bool running = true;
 
     //Create a dope print saying "Train Management App" with characters
