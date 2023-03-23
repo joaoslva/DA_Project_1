@@ -1,4 +1,7 @@
 #include "Station.h"
+Station::Station(){
+
+}
 
 Station::Station(const string &name, const string &district, const string &municipality,
                  const string &township, const string &line)

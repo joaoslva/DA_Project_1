@@ -6,6 +6,7 @@ using namespace std;
 
 class Station {
 public:
+    Station();
     Station(const string &name, const string &district, const string &municipality,
             const string &township, const string &line);
 
