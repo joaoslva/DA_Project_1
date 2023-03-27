@@ -1,7 +1,7 @@
 #include <iostream>
 #include <limits>
 
-void checkStay(bool& condition){
+void checkStay(bool& condition, const std::string& previousChoice){
     std::string checkChoice;
     while(true){
         std::cout << "| Do you wish to use this functionality again or go back?  \n";
@@ -17,9 +17,9 @@ void checkStay(bool& condition){
 
         else if(checkChoice == "back"){
             condition = false;
-            std::cout << " ---------------------------------------------------------- \n";
+            std::cout << " ----------------------------------------------------------\n";
             std::cout << "|                                                          \n";
-            std::cout << "| Select one of the options below                          \n";
+            std::cout << "| Select one of the " + previousChoice + " options below   \n";
             break;
         }
 
@@ -33,6 +33,7 @@ void checkStay(bool& condition){
         }
     }
 }
+
 int main() {
     bool running = true;
 
@@ -82,7 +83,7 @@ int main() {
                     bool option1Stay = true;
                     while(option1Stay){
                         std::cout << "| Option 1 selected \n";
-                        checkStay(option1Stay);
+                        checkStay(option1Stay, "Service Metrics");
                     }
                 }
 
@@ -90,7 +91,7 @@ int main() {
                     bool option2Stay = true;
                     while(option2Stay){
                         std::cout << "| Option 2 selected \n";
-                        checkStay(option2Stay);
+                        checkStay(option2Stay, "Service Metrics");
                     }
                 }
 
@@ -98,7 +99,7 @@ int main() {
                     bool option3Stay = true;
                     while(option3Stay){
                         std::cout << "| Option 3 selected \n";
-                        checkStay(option3Stay);
+                        checkStay(option3Stay, "Service Metrics");
                     }
                 }
 
@@ -106,7 +107,7 @@ int main() {
                     bool option4Stay = true;
                     while(option4Stay){
                         std::cout << "| Option 4 selected \n";
-                        checkStay(option4Stay);
+                        checkStay(option4Stay, "Service Metrics");
                     }
                 }
 
@@ -140,8 +141,9 @@ int main() {
                         std::cout << "|                                                          \n";
 
                         if(helpChoice == "back"){
-                            std::cout << "|----------------------------------------------------------\n";
+                            std::cout << " ---------------------------------------------------------- \n";
                             std::cout << "|                                                          \n";
+                            std::cout << "| Select one of the Service Metrics options below          \n";
                             break;
                         }
 
@@ -160,6 +162,8 @@ int main() {
                     serviceMetricsStay = false;
                     std::cout << "|                                                           \n";
                     std::cout << "|---------------------------------------------------------- \n";
+                    std::cout << "|                                                           \n";
+                    std::cout << "| Select one of the options below to get started.           \n";
                     std::cout << "|                                                           \n";
                 }
 
@@ -197,7 +201,7 @@ int main() {
                     bool option1Stay = true;
                     while(option1Stay){
                         std::cout << "| Option 1 selected \n";
-                        checkStay(option1Stay);
+                        checkStay(option1Stay, "Operation Cost Optimization");
                     }
                 }
 
@@ -222,8 +226,9 @@ int main() {
                         std::cout << "|                                                          \n";
 
                         if(helpChoice == "back"){
-                            std::cout << "|----------------------------------------------------------\n";
+                            std::cout << " ---------------------------------------------------------- \n";
                             std::cout << "|                                                          \n";
+                            std::cout << "| Select one of the Operation Cost Optimization options below \n";
                             break;
                         }
 
@@ -242,6 +247,8 @@ int main() {
                     operationCostOptimizationStay = false;
                     std::cout << "|                                                           \n";
                     std::cout << "|---------------------------------------------------------- \n";
+                    std::cout << "|                                                           \n";
+                    std::cout << "| Select one of the options below to get started.           \n";
                     std::cout << "|                                                           \n";
                 }
 
@@ -280,7 +287,7 @@ int main() {
                     bool option1Stay = true;
                     while(option1Stay){
                         std::cout << "Option 1 selected \n";
-                        checkStay(option1Stay);
+                        checkStay(option1Stay, "Line Reliability");
                     }
                 }
 
@@ -288,7 +295,7 @@ int main() {
                     bool option2Stay = true;
                     while(option2Stay){
                         std::cout << "Option 2 selected \n";
-                        checkStay(option2Stay);
+                        checkStay(option2Stay, "Line Reliability");
                     }
                 }
 
@@ -320,6 +327,7 @@ int main() {
                         if (helpChoice == "back") {
                             std::cout << "|----------------------------------------------------------\n";
                             std::cout << "|                                                          \n";
+                            std::cout << "| Select one of the Line Reliability options below          \n";
                             break;
                         } else {
                             std::cout << "| Not a valid input, please try again                      \n";
@@ -332,6 +340,8 @@ int main() {
                     lineReliabilityStay = false;
                     std::cout << "|                                                           \n";
                     std::cout << "|---------------------------------------------------------- \n";
+                    std::cout << "|                                                           \n";
+                    std::cout << "| Select one of the options below to get started.           \n";
                     std::cout << "|                                                           \n";
                 }
 
@@ -376,7 +386,7 @@ int main() {
                 if (helpChoice == "back") {
                     std::cout << "|----------------------------------------------------------\n";
                     std::cout << "|                                                          \n";
-                    std::cout << "| Select one of the options below                          \n";
+                    std::cout << "| Select one of the options below to get started.          \n";
                     std::cout << "|                                                          \n";
                     break;
                 } else {
@@ -400,6 +410,5 @@ int main() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
-
     return 0;
 }
