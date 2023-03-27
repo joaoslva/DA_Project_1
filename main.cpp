@@ -1,6 +1,10 @@
 #include <iostream>
 #include <limits>
-
+#include "Station.h"
+#include <vector>
+#include "Csv_reader.h"
+#include "Graph.h"
+Graph graph;
 void checkStay(bool& condition){
     std::string checkChoice;
     while(true){
@@ -33,7 +37,13 @@ void checkStay(bool& condition){
         }
     }
 }
+
 int main() {
+    Csv_reader reader;
+    std::vector<Station> stations = reader.read_stations("../dataset/stations.csv");
+    std::vector<Network> networks=reader.read_network_csv("../dataset/network.csv");
+    for(const Station& station:stations) graph.addStation(station);
+    for(const Network& network:networks) graph.addConnection(network);
     bool running = true;
 
     //Create a dope print saying "Train Management App" with characters
