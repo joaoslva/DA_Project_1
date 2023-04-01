@@ -84,11 +84,19 @@ void Station::setDistance(int distance) {
     Station::distance = distance;
 }
 
-Railway *Station::addRailway(Station *station, int capacity, const std::string &service) {
+Railway *Station::addRailway(Station *station, double capacity, const std::string &service) {
     Railway* railway = new Railway(this, station, capacity, service);
     outgoingRailways.push_back(railway);
     station->incomingRailways.push_back(railway);
     return railway;
+}
+
+void Station::setPath(Railway *previousRailway) {
+    this->path = previousRailway;
+}
+
+Railway *Station::getPath() const {
+    return path;
 }
 
 // Raillway
@@ -98,7 +106,7 @@ Railway::Railway(const std::string& sourceStation, const std::string& destinySta
     this->destinyStationString = destinyStation;
     this->capacity = capacity;
     this->service = service;
-    flow = 0;
+    this->flow = 0;
 }
 
 Railway::Railway(Station *origin, Station *destination, int capacity, const std::string &service) {
@@ -106,9 +114,10 @@ Railway::Railway(Station *origin, Station *destination, int capacity, const std:
     this->destinyStationPointer = destination;
     this->capacity = capacity;
     this->service = service;
+    this->flow = 0;
 }
 
-int Railway::getCapacity() const {
+double Railway::getCapacity() const {
     return capacity;
 }
 
@@ -140,10 +149,10 @@ const std::string &Railway::getDestinyStationString() const {
     return destinyStationString;
 }
 
-Railway* Railway::getPreviousRailway() const {
-    return previousRailway;
+Railway* Railway::getReverseRailway() const {
+    return reverseRailway;
 }
 
-void Railway::setPreviousRailway(Railway *previousRailway) {
-    Railway::previousRailway = previousRailway;
+void Railway::setReverseRailway(Railway *reverseRailway) {
+    reverseRailway = reverseRailway;
 }
