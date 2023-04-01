@@ -3,4 +3,4 @@ project(Projeto_1)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(Projeto_1 main.cpp Station.cpp Csv_reader.cpp Network.cpp Network.h Graph.cpp Graph.h)
+add_executable(Projeto_1 main.cpp CsvReader.cpp Graph.cpp Graph.h StationRailway.cpp StationRailway.h)
