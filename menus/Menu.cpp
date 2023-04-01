@@ -1,50 +1,48 @@
-#include <iostream>
-#include <limits>
-#include <vector>
-#include "CsvReader.h"
-#include "Graph.h"
+//
+// Created by Joao on 4/1/2023.
+//
 
-int main() {
-    //Setting up the graph
-    Graph graph;
+#include "Menu.h"
+#include "Service_Metrics.h"
+#include "Operation_Cost_optimization.h"
+#include "Line_Reliability.h"
 
-    std::vector<Station> stations = CsvReader::readStations("../dataset/stations.csv");
-    std::vector<Railway> railways= CsvReader::readNetwork("../dataset/network.csv");
+Menu::Menu(const Graph &graph): graph(graph) {}
 
-    if(stations.empty()){
-        std::cout << "Error reading stations file" << std::endl;
-        return 1;
-    }
+void Menu::checkStay(bool& condition, const std::string& previousChoice){
+    std::string checkChoice;
+    while(true){
+        std::cout << "| Do you wish to use this functionality again or go back?  \n";
+        std::cout << "| Write 'stay' to use it again, 'back' to go back          \n";
+        std::cout << "|                                                          \n";
+        std::cout << "| Enter here: ";
+        std::cin >> checkChoice;
+        std::cout << "|                                                          \n";
 
-    if(railways.empty()){
-        std::cout << "Error reading network file" << std::endl;
-        return 1;
-    }
+        if(checkChoice == "stay"){
+            break;
+        }
 
-    for(const Station& station:stations){
-        if(!graph.addStation(station)){
-            std::cout << "Error adding station " << station.getName() << std::endl;
+        else if(checkChoice == "back"){
+            condition = false;
+            std::cout << " ----------------------------------------------------------\n";
+            std::cout << "|                                                          \n";
+            std::cout << "| Select one of the " + previousChoice + " options below   \n";
+            break;
+        }
+
+        else{
+            std::cout << "| Not a valid input, please try again                      \n";
+            std::cout << "|                                                          \n";
+            checkChoice = "";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
+}
 
-    for(const Railway& railway:railways){
-        if(!graph.addBidirectionalRailway(railway.getSourceStationString(), railway.getDestinyStationString(), railway)){
-            std::cout << "Error adding railway " << railway.getSourceStationString() << " -> " << railway.getDestinyStationString() << std::endl;
-        }
-    }
-
-    //----------------------------------------------------
-
-    for(auto station: graph.getStations()){
-        std::cout << "|--------------------\n";
-        std::cout << "Station name: " << station->getName() << std::endl;
-        for(auto railway: station->getOutgoingRailways()){
-            std::cout << "  Destination: " << railway->getDestinyStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
-        }
-    }
-
+void Menu::start(){
     bool running = true;
-
     //Create a dope print saying "Train Management App" with characters
 
     std::cout << "|---------------------------------------------------------- \n";
@@ -65,154 +63,13 @@ int main() {
         std::cin >> choice;
         std::cout << "|                                                          \n";
 
-        if(choice == 1){
-            std::cout << "|---------------------------------------------------------- \n";
-            std::cout << "|                                                           \n";
-            std::cout << "| Welcome to Service Metrics. Select one of the options     \n";
-            std::cout << "| below to get started.                                     \n";
-
-            bool serviceMetricsStay = true;
-
-            while (serviceMetricsStay){
-                int serviceMetricsChoice = 0;
-                std::cout << "|                                                           \n";
-                std::cout << "| 1 - Maximum Number of Trains between stations A and B     \n";
-                std::cout << "| 2 - Pair of Station with more trains, at top capacity     \n";
-                std::cout << "| 3 - Locations to up the budget                            \n";
-                std::cout << "| 4 - Maximum Number of Trains that arrive at a station     \n";
-                std::cout << "| 5 - Help                                                  \n";
-                std::cout << "| 6 - Go back                                               \n";
-                std::cout << "|                                                           \n";
-                std::cout << "| Enter here your choice: ";
-                std::cin >> serviceMetricsChoice;
-                std::cout << "|                                                           \n";
-
-                if(serviceMetricsChoice == 1){
-                    bool option1Stay = true;
-                    double maxTrains;
-                    std::string sourceStation, destinyStation;
-                    std::cout << "| Welcome to Maximum Number of Trains between stations A and B  \n|\n";
-                    while(option1Stay){
-                        std::cout << "| Enter the source station: ";
-                        std::cin >> sourceStation;
-                        std::cout << "| Enter the destiny station: ";
-                        std::cin >> destinyStation;
-                        std::cout << "|                                                           \n";
-                        maxTrains = graph.getTrainsBetweenStations(sourceStation, destinyStation);
-
-                        if(maxTrains == -1){
-                            std::cout << "| Error: Invalid source station name\n";
-                        }
-
-                        if(maxTrains == -2){
-                            std::cout << "| Error: Invalid destiny station name\n";
-                        }
-
-                        if(maxTrains == -3){
-                            std::cout << "| Error: Source and destiny stations are the same\n";
-                        }
-
-                        if(maxTrains == 0){
-                            std::cout << "| Error: No railway between source and destiny stations\n";
-                        }
-
-                        std::cout << "| Maximum number of trains between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "\n";
-                        std::cout << "|                                                           \n";
-                        checkStay(option1Stay, "Service Metrics");
-                    }
-                }
-
-                else if(serviceMetricsChoice == 2){
-                    bool option2Stay = true;
-                    while(option2Stay){
-                        std::cout << "| Option 2 selected \n";
-                        checkStay(option2Stay, "Service Metrics");
-                    }
-                }
-
-                else if(serviceMetricsChoice == 3){
-                    bool option3Stay = true;
-                    while(option3Stay){
-                        std::cout << "| Option 3 selected \n";
-                        checkStay(option3Stay, "Service Metrics");
-                    }
-                }
-
-                else if(serviceMetricsChoice == 4){
-                    bool option4Stay = true;
-                    while(option4Stay){
-                        std::cout << "| Option 4 selected \n";
-                        checkStay(option4Stay, "Service Metrics");
-                    }
-                }
-
-                else if(serviceMetricsChoice == 5){
-                    std::string helpChoice;
-
-                    std::cout << "|------------------------Help Page-------------------------\n";
-                    std::cout << "|                                                          \n";
-                    std::cout << "| How each option works                                    \n";
-                    std::cout << "|                                                          \n";
-                    std::cout << "| Maximum NUmber of Trains between A and B: Given two train\n";
-                    std::cout << "|   stations, this option will return the maximum number of\n";
-                    std::cout << "|   trains that can be in between them at the same time.   \n";
-                    std::cout << "| Pair of Station with more trains, at top capacity: This  \n";
-                    std::cout << "|   option will return the pair of stations that have the  \n";
-                    std::cout << "|   most trains at the same time, when the network is at   \n";
-                    std::cout << "|   top capacity.                                          \n";
-                    std::cout << "| Locations to up the budget: This functionality, upon     \n";
-                    std::cout << "|   receiving an integer k, will return the k locations,   \n";
-                    std::cout << "|   districts or municipalities, that should have their    \n";
-                    std::cout << "|   budget increased in order to improve their performance \n";
-                    std::cout << "| Maximum Number of Trains that arrive at a station: This  \n";
-                    std::cout << "|   option will return the maximum number of trains that   \n";
-                    std::cout << "|   can arrive at a given station at the same time.        \n";
-                    std::cout << "|                                                          \n";
-                    std::cout << "| Write 'back' to go to the previous page                  \n";
-                    std::cout << "| Enter here: ";
-
-                    while(true){
-                        std::cin >> helpChoice;
-                        std::cout << "|                                                          \n";
-
-                        if(helpChoice == "back"){
-                            std::cout << " ---------------------------------------------------------- \n";
-                            std::cout << "|                                                          \n";
-                            std::cout << "| Select one of the Service Metrics options below          \n";
-                            break;
-                        }
-
-                        else{
-                            std::cout << "| Not a valid input, please try again                      \n";
-                            std::cout << "|                                                          \n";
-                            std::cout << "| Enter here: ";
-                            helpChoice = "";
-                            std::cin.clear();
-                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                        }
-                    }
-                }
-
-                else if(serviceMetricsChoice == 6){
-                    serviceMetricsStay = false;
-                    std::cout << "|                                                           \n";
-                    std::cout << "|---------------------------------------------------------- \n";
-                    std::cout << "|                                                           \n";
-                    std::cout << "| Select one of the options below to get started.           \n";
-                    std::cout << "|                                                           \n";
-                }
-
-                else{
-                    std::cout << "| Not a valid input, please try again                      \n";
-                    std::cout << "| Select on of the following options                       \n";
-                    serviceMetricsChoice = 0;
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                }
-            }
+        if(choice == 1) {
+            Service_Metrics serviceMetrics = Service_Metrics(graph);
+            running = serviceMetrics.start();
         }
-
         else if(choice == 2){
+            Operation_Cost_optimization serviceMetrics = Operation_Cost_optimization(graph);
+            running = serviceMetrics.start();
             std::cout << "|---------------------------------------------------------- \n";
             std::cout << "|                                                           \n";
             std::cout << "| Welcome to Operation Cost Optimization. Select one of the \n";
@@ -445,5 +302,4 @@ int main() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
-    return 0;
 }
