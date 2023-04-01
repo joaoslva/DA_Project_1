@@ -29,7 +29,6 @@ void checkStay(bool& condition, const std::string& previousChoice){
         else{
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "|                                                          \n";
-            std::cout << "| Enter here: ";
             checkChoice = "";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -109,7 +108,7 @@ int main() {
             while (serviceMetricsStay){
                 int serviceMetricsChoice = 0;
                 std::cout << "|                                                           \n";
-                std::cout << "| 1 - Maximum Number of Trains between A and B              \n";
+                std::cout << "| 1 - Maximum Number of Trains between stations A and B     \n";
                 std::cout << "| 2 - Pair of Station with more trains, at top capacity     \n";
                 std::cout << "| 3 - Locations to up the budget                            \n";
                 std::cout << "| 4 - Maximum Number of Trains that arrive at a station     \n";
@@ -122,8 +121,35 @@ int main() {
 
                 if(serviceMetricsChoice == 1){
                     bool option1Stay = true;
+                    double maxTrains = 0;
+                    std::string sourceStation, destinyStation;
+                    std::cout << "| Welcome to Maximum Number of Trains between stations A and B  \n|\n";
                     while(option1Stay){
-                        std::cout << "| Option 1 selected \n";
+                        std::cout << "| Enter the source station: ";
+                        std::cin >> sourceStation;
+                        std::cout << "| Enter the destiny station: ";
+                        std::cin >> destinyStation;
+                        std::cout << "|                                                           \n";
+                        maxTrains = graph.getTrainsBetweenStations(sourceStation, destinyStation);
+
+                        if(maxTrains == -1){
+                            std::cout << "| Error: Invalid source station name\n";
+                        }
+
+                        if(maxTrains == -2){
+                            std::cout << "| Error: Invalid destiny station name\n";
+                        }
+
+                        if(maxTrains == -3){
+                            std::cout << "| Error: Source and destiny stations are the same\n";
+                        }
+
+                        if(maxTrains == 0){
+                            std::cout << "| Error: No railway between source and destiny stations\n";
+                        }
+
+                        std::cout << "| Maximum number of trains between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "\n";
+                        std::cout << "|                                                           \n";
                         checkStay(option1Stay, "Service Metrics");
                     }
                 }

@@ -34,15 +34,16 @@ public:
     bool isVisited() const;
     bool isProcessing() const;
     int getDistance() const;
+    Railway* getPath() const;
 
     //Setters
     void setID(int id);
     void setVisited(bool visited);
     void setProcessing(bool processing);
     void setDistance(int distance);
-    void setPreviousRailway(Railway* previousRailway);
+    void setPath(Railway* previousRailway);
 
-    Railway* addRailway(Station* station, int capacity, const std::string& service);
+    Railway* addRailway(Station* station, double capacity, const std::string& service);
 
 private:
     //Fields read from the csv file
@@ -61,7 +62,9 @@ private:
     bool visited = false;
     bool processing = false;
 
-    int distance = INT_MAX;
+    int distance;
+
+    Railway* path = nullptr;
 };
 
 /* Railway class */
@@ -75,28 +78,26 @@ public:
     Station* getDestinyStationPointer() const;
     const std::string &getSourceStationString() const;
     const std::string &getDestinyStationString() const;
-    int getCapacity() const;
+    double getCapacity() const;
     const std::string &getService() const;
     double getFlow() const;
-    Railway* getPreviousRailway() const;
+    Railway* getReverseRailway() const;
 
     //Setters
     void setFlow(double flow);
-    void setPreviousRailway(Railway* previousRailway);
+    void setReverseRailway(Railway* reverseRailway);
 
 private:
     std::string sourceStationString;
     std::string destinyStationString;
+    double capacity;
+    std::string service;
 
     Station* sourceStationPointer;
     Station* destinyStationPointer;
-    int capacity;
-    std::string service;
 
     double flow;
-
-    Station* sourceVertex;
-    Railway* previousRailway;
+    Railway* reverseRailway;
 };
 
 
