@@ -4,21 +4,19 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "Network.h"
-#include "Station.h"
+#include "StationRailway.h"
+
 class Graph {
 public:
     Graph();
-    void addStation(const Station &station);
-    void addConnection(const Network &network);
-    const Station &getStation(const std::string &name) const;
-    const std::vector<Network> &getConnections(const std::string &stationName) const;
+    bool addStation(const Station &station);
+    bool addRailway(const std::string& sourceStation, const std::string& destinyStation, const Railway& railway);
+    bool addBidirectionalRailway(const std::string& sourceStation, const std::string& destinyStation, const Railway& railway);
+    Station* findStation(const std::string &name) const;
+    std::vector<Station*> getStations() const;
 
 private:
-    std::unordered_map<std::string, Station> stations;
-    std::unordered_map<std::string, std::vector<Network>> connections;
+    std::vector<Station*> stations;
 };
 
-
 #endif
-

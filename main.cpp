@@ -1,11 +1,10 @@
 #include <iostream>
 #include <limits>
-#include "Station.h"
 #include <vector>
-#include "Csv_reader.h"
+#include "CsvReader.h"
 #include "Graph.h"
-Graph graph;
-void checkStay(bool& condition){
+
+void checkStay(bool& condition, const std::string& previousChoice){
     std::string checkChoice;
     while(true){
         std::cout << "| Do you wish to use this functionality again or go back?  \n";
@@ -21,9 +20,9 @@ void checkStay(bool& condition){
 
         else if(checkChoice == "back"){
             condition = false;
-            std::cout << " ---------------------------------------------------------- \n";
+            std::cout << " ----------------------------------------------------------\n";
             std::cout << "|                                                          \n";
-            std::cout << "| Select one of the options below                          \n";
+            std::cout << "| Select one of the " + previousChoice + " options below   \n";
             break;
         }
 
@@ -39,11 +38,44 @@ void checkStay(bool& condition){
 }
 
 int main() {
-    Csv_reader reader;
-    std::vector<Station> stations = reader.read_stations("../dataset/stations.csv");
-    std::vector<Network> networks=reader.read_network_csv("../dataset/network.csv");
-    for(const Station& station:stations) graph.addStation(station);
-    for(const Network& network:networks) graph.addConnection(network);
+    //Setting up the graph
+    Graph graph;
+
+    std::vector<Station> stations = CsvReader::readStations("../dataset/stations.csv");
+    std::vector<Railway> railways= CsvReader::readNetwork("../dataset/network.csv");
+
+    if(stations.empty()){
+        std::cout << "Error reading stations file" << std::endl;
+        return 1;
+    }
+
+    if(railways.empty()){
+        std::cout << "Error reading network file" << std::endl;
+        return 1;
+    }
+
+    for(const Station& station:stations){
+        if(!graph.addStation(station)){
+            std::cout << "Error adding station " << station.getName() << std::endl;
+        }
+    }
+
+    for(const Railway& railway:railways){
+        if(!graph.addBidirectionalRailway(railway.getSourceStationString(), railway.getDestinyStationString(), railway)){
+            std::cout << "Error adding railway " << railway.getSourceStationString() << " -> " << railway.getDestinyStationString() << std::endl;
+        }
+    }
+
+    //----------------------------------------------------
+
+    for(auto station: graph.getStations()){
+        std::cout << "|--------------------\n";
+        std::cout << "Station name: " << station->getName() << std::endl;
+        for(auto railway: station->getOutgoingRailways()){
+            std::cout << "  Destination: " << railway->getDestinyStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
+        }
+    }
+
     bool running = true;
 
     //Create a dope print saying "Train Management App" with characters
@@ -92,7 +124,7 @@ int main() {
                     bool option1Stay = true;
                     while(option1Stay){
                         std::cout << "| Option 1 selected \n";
-                        checkStay(option1Stay);
+                        checkStay(option1Stay, "Service Metrics");
                     }
                 }
 
@@ -100,7 +132,7 @@ int main() {
                     bool option2Stay = true;
                     while(option2Stay){
                         std::cout << "| Option 2 selected \n";
-                        checkStay(option2Stay);
+                        checkStay(option2Stay, "Service Metrics");
                     }
                 }
 
@@ -108,7 +140,7 @@ int main() {
                     bool option3Stay = true;
                     while(option3Stay){
                         std::cout << "| Option 3 selected \n";
-                        checkStay(option3Stay);
+                        checkStay(option3Stay, "Service Metrics");
                     }
                 }
 
@@ -116,7 +148,7 @@ int main() {
                     bool option4Stay = true;
                     while(option4Stay){
                         std::cout << "| Option 4 selected \n";
-                        checkStay(option4Stay);
+                        checkStay(option4Stay, "Service Metrics");
                     }
                 }
 
@@ -150,8 +182,9 @@ int main() {
                         std::cout << "|                                                          \n";
 
                         if(helpChoice == "back"){
-                            std::cout << "|----------------------------------------------------------\n";
+                            std::cout << " ---------------------------------------------------------- \n";
                             std::cout << "|                                                          \n";
+                            std::cout << "| Select one of the Service Metrics options below          \n";
                             break;
                         }
 
@@ -170,6 +203,8 @@ int main() {
                     serviceMetricsStay = false;
                     std::cout << "|                                                           \n";
                     std::cout << "|---------------------------------------------------------- \n";
+                    std::cout << "|                                                           \n";
+                    std::cout << "| Select one of the options below to get started.           \n";
                     std::cout << "|                                                           \n";
                 }
 
@@ -207,7 +242,7 @@ int main() {
                     bool option1Stay = true;
                     while(option1Stay){
                         std::cout << "| Option 1 selected \n";
-                        checkStay(option1Stay);
+                        checkStay(option1Stay, "Operation Cost Optimization");
                     }
                 }
 
@@ -232,8 +267,9 @@ int main() {
                         std::cout << "|                                                          \n";
 
                         if(helpChoice == "back"){
-                            std::cout << "|----------------------------------------------------------\n";
+                            std::cout << " ---------------------------------------------------------- \n";
                             std::cout << "|                                                          \n";
+                            std::cout << "| Select one of the Operation Cost Optimization options below \n";
                             break;
                         }
 
@@ -252,6 +288,8 @@ int main() {
                     operationCostOptimizationStay = false;
                     std::cout << "|                                                           \n";
                     std::cout << "|---------------------------------------------------------- \n";
+                    std::cout << "|                                                           \n";
+                    std::cout << "| Select one of the options below to get started.           \n";
                     std::cout << "|                                                           \n";
                 }
 
@@ -290,7 +328,7 @@ int main() {
                     bool option1Stay = true;
                     while(option1Stay){
                         std::cout << "Option 1 selected \n";
-                        checkStay(option1Stay);
+                        checkStay(option1Stay, "Line Reliability");
                     }
                 }
 
@@ -298,7 +336,7 @@ int main() {
                     bool option2Stay = true;
                     while(option2Stay){
                         std::cout << "Option 2 selected \n";
-                        checkStay(option2Stay);
+                        checkStay(option2Stay, "Line Reliability");
                     }
                 }
 
@@ -330,6 +368,7 @@ int main() {
                         if (helpChoice == "back") {
                             std::cout << "|----------------------------------------------------------\n";
                             std::cout << "|                                                          \n";
+                            std::cout << "| Select one of the Line Reliability options below          \n";
                             break;
                         } else {
                             std::cout << "| Not a valid input, please try again                      \n";
@@ -342,6 +381,8 @@ int main() {
                     lineReliabilityStay = false;
                     std::cout << "|                                                           \n";
                     std::cout << "|---------------------------------------------------------- \n";
+                    std::cout << "|                                                           \n";
+                    std::cout << "| Select one of the options below to get started.           \n";
                     std::cout << "|                                                           \n";
                 }
 
@@ -386,7 +427,7 @@ int main() {
                 if (helpChoice == "back") {
                     std::cout << "|----------------------------------------------------------\n";
                     std::cout << "|                                                          \n";
-                    std::cout << "| Select one of the options below                          \n";
+                    std::cout << "| Select one of the options below to get started.          \n";
                     std::cout << "|                                                          \n";
                     break;
                 } else {
@@ -410,6 +451,5 @@ int main() {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
-
     return 0;
 }
