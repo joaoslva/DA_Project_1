@@ -27,8 +27,8 @@ bool Graph::addBidirectionalRailway(const std::string& sourceStation, const std:
     if(source == nullptr || destiny == nullptr){
         return false;
     }
-    auto railway1 = source->addRailway(destiny, railway.getCapacity(), railway.getService());
-    auto railway2 = destiny->addRailway(source, railway.getCapacity(), railway.getService());
+    auto railway1 = source->addRailway(destiny, railway.getCapacity() / 2, railway.getService());
+    auto railway2 = destiny->addRailway(source, railway.getCapacity() / 2, railway.getService());
     railway1->setReverseRailway(railway2);
     railway2->setReverseRailway(railway1);
     return true;
@@ -115,7 +115,6 @@ void Graph::edmondsKarp(Station* sourceStation, Station* destinyStation) {
     }
     int i = 1;
     while(findPath(sourceStation, destinyStation)){
-        std::cout << "Iteration " << i++ << std::endl;
         double residualCapacity = minResidualCapacity(sourceStation, destinyStation);
         augmentFlow(sourceStation, destinyStation, residualCapacity);
     }
