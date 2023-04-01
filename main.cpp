@@ -4,7 +4,7 @@
 #include "Graph.h"
 #include "menus/Menu.h"
 
-int errorCheck(Graph graph, std::vector<Station> stations, std::vector<Railway> railways){
+int errorCheck(Graph* graph, std::vector<Station> stations, std::vector<Railway> railways){
     if(stations.empty()){
         std::cout << "Error reading stations file" << std::endl;
         return 1;
@@ -16,13 +16,13 @@ int errorCheck(Graph graph, std::vector<Station> stations, std::vector<Railway> 
     }
 
     for(const Station& station:stations){
-        if(!graph.addStation(station)){
+        if(!graph->addStation(station)){
             std::cout << "Error adding station " << station.getName() << std::endl;
         }
     }
 
     for(const Railway& railway:railways){
-        if(!graph.addBidirectionalRailway(railway.getSourceStationString(), railway.getDestinyStationString(), railway)){
+        if(!graph->addBidirectionalRailway(railway.getSourceStationString(), railway.getDestinyStationString(), railway)){
             std::cout << "Error adding railway " << railway.getSourceStationString() << " -> " << railway.getDestinyStationString() << std::endl;
         }
     }
@@ -37,7 +37,7 @@ int main() {
     std::vector<Station> stations = CsvReader::readStations("../dataset/stations.csv");
     std::vector<Railway> railways= CsvReader::readNetwork("../dataset/network.csv");
 
-    if (errorCheck(graph, stations, railways)) return 1;
+    if (errorCheck(&graph, stations, railways)) return 1;
     //----------------------------------------------------
 
     for(auto station: graph.getStations()){

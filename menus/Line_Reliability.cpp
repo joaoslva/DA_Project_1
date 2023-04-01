@@ -74,6 +74,7 @@ bool Line_Reliability::start() {
                 } else {
                     std::cout << "| Not a valid input, please try again                      \n";
                     std::cout << "|                                                          \n";
+                    std::cout << "| Enter here: ";
                 }
             }
         }
