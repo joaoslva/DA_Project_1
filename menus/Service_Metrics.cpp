@@ -139,16 +139,16 @@ bool Service_Metrics::start() {
             std::cout << "|                                                           \n";
             std::cout << "| Select one of the options below to get started.           \n";
             std::cout << "|                                                           \n";
-            return false;
+            return true;
         }
 
         else if(serviceMetricsChoice == "q"){
             std::cout << "|                                                           \n";
             std::cout << "|---------------------------------------------------------- \n";
             std::cout << "|                                                           \n";
-            std::cout << "| Thank you, goodbye!                                       \n";
+            std::cout << "| Thank you for using our program, have a nice day!         \n";
             std::cout << "|                                                           \n";
-            return true;
+            return false;
         }
 
         else{
