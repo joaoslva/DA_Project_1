@@ -13,6 +13,7 @@ public:
     explicit Service_Metrics(const Graph &graph);
     void help();
     bool start();
+    void maxTrainsAB();
 };
 
 
