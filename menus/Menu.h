@@ -16,6 +16,9 @@ protected:
 public:
     explicit Menu(const Graph &graph);
     void start();
+    void help();
+    void returnMessage();
+    void quitMessage();
     void checkStay(bool& condition, const std::string& previousChoice);
 };
 

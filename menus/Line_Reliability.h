@@ -11,6 +11,7 @@ class Line_Reliability: public Menu{
 public:
     explicit Line_Reliability(const Graph &graph);
     bool start();
+    void help();
 };
 
 

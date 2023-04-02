@@ -11,6 +11,7 @@
 class Service_Metrics: public Menu {
 public:
     explicit Service_Metrics(const Graph &graph);
+    void help();
     bool start();
 };
 

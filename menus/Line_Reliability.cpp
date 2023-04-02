@@ -10,9 +10,11 @@ bool Line_Reliability::start() {
     std::cout << "|                                                           \n";
     std::cout << "| Welcome to Line Reliability. Select one of the options    \n";
     std::cout << "| below to get started.                                     \n";
+    std::cout << "|                                                           \n";
 
     while (true) {
         std::string lineReliabilityChoice;
+        std::cout << "### LINE RELIABILITY MENU ###                               \n";
         std::cout << "|                                                           \n";
         std::cout << "| 1 - Maximum Number of Trains between A a B, taking into   \n";
         std::cout << "|     account reduced connectivity                          \n";
@@ -41,58 +43,15 @@ bool Line_Reliability::start() {
             }
         }
 
-        else if(lineReliabilityChoice == "3") {
-            std::string helpChoice;
-
-            std::cout << "|------------------------Help Page-------------------------\n";
-            std::cout << "|                                                          \n";
-            std::cout << "| How each option works                                    \n";
-            std::cout << "|                                                          \n";
-            std::cout << "| Maximum Number of Trains between A a B, taking into      \n";
-            std::cout << "|   account reduced connectivity: Given two train stations,\n";
-            std::cout << "|   this option will return the maximum number of trains   \n";
-            std::cout << "|   that can travel between them at the same time, taking  \n";
-            std::cout << "|   in account a reduced connectivity version of the       \n";
-            std::cout << "|   network.                                               \n";
-            std::cout << "|                                                          \n";
-            std::cout << "| Stations more affected by segment failure: Given a       \n";
-            std::cout << "|   segment of the line, this option will return the       \n";
-            std::cout << "|   stations that are more affected by the segment failure.\n";
-            std::cout << "|                                                          \n";
-            std::cout << "| Write 'back' to go to the previous page                  \n";
-            std::cout << "| Enter here: ";
-
-            while (true) {
-                std::cin >> helpChoice;
-                std::cout << "|                                                          \n";
-
-                if (helpChoice == "back") {
-                    std::cout << "|----------------------------------------------------------\n";
-                    std::cout << "|                                                          \n";
-                    std::cout << "| Select one of the Line Reliability options below          \n";
-                    break;
-                } else {
-                    std::cout << "| Not a valid input, please try again                      \n";
-                    std::cout << "|                                                          \n";
-                    std::cout << "| Enter here: ";
-                }
-            }
-        }
+        else if(lineReliabilityChoice == "3")
+            help();
 
         else if(lineReliabilityChoice == "r"){
-            std::cout << "|                                                           \n";
-            std::cout << "|---------------------------------------------------------- \n";
-            std::cout << "|                                                           \n";
-            std::cout << "| Select one of the options below to get started.           \n";
-            std::cout << "|                                                           \n";
+            returnMessage();
             return true;
         }
         else if(lineReliabilityChoice == "q"){
-            std::cout << "|                                                           \n";
-            std::cout << "|---------------------------------------------------------- \n";
-            std::cout << "|                                                           \n";
-            std::cout << "| Thank you for using our program, have a nice day!         \n";
-            std::cout << "|                                                           \n";
+            quitMessage();
             return false;
         }
 
@@ -101,6 +60,44 @@ bool Line_Reliability::start() {
             std::cout << "| Select on of the following options                       \n";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+}
+
+void Line_Reliability::help() {
+    std::string helpChoice;
+
+    std::cout << "|------------------------Help Page-------------------------\n";
+    std::cout << "|                                                          \n";
+    std::cout << "| How each option works                                    \n";
+    std::cout << "|                                                          \n";
+    std::cout << "| Maximum Number of Trains between A a B, taking into      \n";
+    std::cout << "|   account reduced connectivity: Given two train stations,\n";
+    std::cout << "|   this option will return the maximum number of trains   \n";
+    std::cout << "|   that can travel between them at the same time, taking  \n";
+    std::cout << "|   in account a reduced connectivity version of the       \n";
+    std::cout << "|   network.                                               \n";
+    std::cout << "|                                                          \n";
+    std::cout << "| Stations more affected by segment failure: Given a       \n";
+    std::cout << "|   segment of the line, this option will return the       \n";
+    std::cout << "|   stations that are more affected by the segment failure.\n";
+    std::cout << "|                                                          \n";
+    std::cout << "| Write 'back' to go to the previous page                  \n";
+    std::cout << "| Enter here: ";
+
+    while (true) {
+        std::cin >> helpChoice;
+        std::cout << "|                                                          \n";
+
+        if (helpChoice == "back") {
+            std::cout << "|----------------------------------------------------------\n";
+            std::cout << "|                                                          \n";
+            std::cout << "| Select one of the Line Reliability options below          \n";
+            break;
+        } else {
+            std::cout << "| Not a valid input, please try again                      \n";
+            std::cout << "|                                                          \n";
+            std::cout << "| Enter here: ";
         }
     }
 }

@@ -11,9 +11,11 @@ bool Service_Metrics::start() {
     std::cout << "|                                                           \n";
     std::cout << "| Welcome to Service Metrics. Select one of the options     \n";
     std::cout << "| below to get started.                                     \n";
+    std::cout << "|                                                           \n";
 
     while (true){
         std::string serviceMetricsChoice;
+        std::cout << "### SERVICE METRICS MENU ###                                \n";
         std::cout << "|                                                           \n";
         std::cout << "| 1 - Maximum Number of Trains between stations A and B     \n";
         std::cout << "| 2 - Pair of Station with more trains, at top capacity     \n";
@@ -86,68 +88,17 @@ bool Service_Metrics::start() {
             }
         }
 
-        else if(serviceMetricsChoice == "5"){
-            std::string helpChoice;
+        else if(serviceMetricsChoice == "5")
+            help();
 
-            std::cout << "|------------------------Help Page-------------------------\n";
-            std::cout << "|                                                          \n";
-            std::cout << "| How each option works                                    \n";
-            std::cout << "|                                                          \n";
-            std::cout << "| Maximum NUmber of Trains between A and B: Given two train\n";
-            std::cout << "|   stations, this option will return the maximum number of\n";
-            std::cout << "|   trains that can be in between them at the same time.   \n";
-            std::cout << "| Pair of Station with more trains, at top capacity: This  \n";
-            std::cout << "|   option will return the pair of stations that have the  \n";
-            std::cout << "|   most trains at the same time, when the network is at   \n";
-            std::cout << "|   top capacity.                                          \n";
-            std::cout << "| Locations to up the budget: This functionality, upon     \n";
-            std::cout << "|   receiving an integer k, will return the k locations,   \n";
-            std::cout << "|   districts or municipalities, that should have their    \n";
-            std::cout << "|   budget increased in order to improve their performance \n";
-            std::cout << "| Maximum Number of Trains that arrive at a station: This  \n";
-            std::cout << "|   option will return the maximum number of trains that   \n";
-            std::cout << "|   can arrive at a given station at the same time.        \n";
-            std::cout << "|                                                          \n";
-            std::cout << "| Write 'back' to go to the previous page                  \n";
-            std::cout << "| Enter here: ";
-
-            while(true){
-                std::cin >> helpChoice;
-                std::cout << "|                                                          \n";
-
-                if(helpChoice == "back"){
-                    std::cout << " ---------------------------------------------------------- \n";
-                    std::cout << "|                                                          \n";
-                    std::cout << "| Select one of the Service Metrics options below          \n";
-                    break;
-                }
-
-                else{
-                    std::cout << "| Not a valid input, please try again                      \n";
-                    std::cout << "|                                                          \n";
-                    std::cout << "| Enter here: ";
-                    helpChoice = "";
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                }
-            }
-        }
 
         else if(serviceMetricsChoice == "r"){
-            std::cout << "|                                                           \n";
-            std::cout << "|---------------------------------------------------------- \n";
-            std::cout << "|                                                           \n";
-            std::cout << "| Select one of the options below to get started.           \n";
-            std::cout << "|                                                           \n";
+            returnMessage();
             return true;
         }
 
         else if(serviceMetricsChoice == "q"){
-            std::cout << "|                                                           \n";
-            std::cout << "|---------------------------------------------------------- \n";
-            std::cout << "|                                                           \n";
-            std::cout << "| Thank you for using our program, have a nice day!         \n";
-            std::cout << "|                                                           \n";
+            quitMessage();
             return false;
         }
 
@@ -155,6 +106,53 @@ bool Service_Metrics::start() {
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "| Select on of the following options                       \n";
             serviceMetricsChoice = "";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+}
+
+void Service_Metrics::help() {
+    std::string helpChoice;
+
+    std::cout << "|------------------------Help Page-------------------------\n";
+    std::cout << "|                                                          \n";
+    std::cout << "| How each option works                                    \n";
+    std::cout << "|                                                          \n";
+    std::cout << "| Maximum NUmber of Trains between A and B: Given two train\n";
+    std::cout << "|   stations, this option will return the maximum number of\n";
+    std::cout << "|   trains that can be in between them at the same time.   \n";
+    std::cout << "| Pair of Station with more trains, at top capacity: This  \n";
+    std::cout << "|   option will return the pair of stations that have the  \n";
+    std::cout << "|   most trains at the same time, when the network is at   \n";
+    std::cout << "|   top capacity.                                          \n";
+    std::cout << "| Locations to up the budget: This functionality, upon     \n";
+    std::cout << "|   receiving an integer k, will return the k locations,   \n";
+    std::cout << "|   districts or municipalities, that should have their    \n";
+    std::cout << "|   budget increased in order to improve their performance \n";
+    std::cout << "| Maximum Number of Trains that arrive at a station: This  \n";
+    std::cout << "|   option will return the maximum number of trains that   \n";
+    std::cout << "|   can arrive at a given station at the same time.        \n";
+    std::cout << "|                                                          \n";
+    std::cout << "| Write 'back' to go to the previous page                  \n";
+    std::cout << "| Enter here: ";
+
+    while(true){
+        std::cin >> helpChoice;
+        std::cout << "|                                                          \n";
+
+        if(helpChoice == "back"){
+            std::cout << " ---------------------------------------------------------- \n";
+            std::cout << "|                                                          \n";
+            std::cout << "| Select one of the Service Metrics options below          \n";
+            break;
+        }
+
+        else{
+            std::cout << "| Not a valid input, please try again                      \n";
+            std::cout << "|                                                          \n";
+            std::cout << "| Enter here: ";
+            helpChoice = "";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
