@@ -208,17 +208,23 @@ void Service_Metrics::upTheBudget() {
                 for(auto element : values){
                     valuesMap[element.first.first] += element.second;
                 }
+
                 std::vector<std::pair<std::string, double>> valuesVector;
-                for(auto element : valuesMap){
+                for(const auto& element : valuesMap){
                     valuesVector.push_back(element);
                 }
+
                 std::sort(valuesVector.begin(), valuesVector.end(), [](std::pair<std::string, double> a, std::pair<std::string, double> b){
                     return a.second > b.second;
                 });
+
+                int j = 0;
                 std::cout << "| The top " << i << " districts where the budget should be increased are: \n";
-                for(int j = 0; j<i; j++){
-                    std::cout << "| District nº " << j+1 << ": " << valuesVector[j].first << ", since it has " << valuesVector[j].second << " trains flowing at maximum capacity;" <<"\n";
+                for(auto element : valuesVector){
+                    std::cout << "| District nº " << ++j << ": " << element.first << ", with " << element.second << "train flowing;" <<"\n";
+                    if(j==i) break;
                 }
+                j = 0;
             }
             std::cout << "|                                                           \n";
             checkStay(option3Stay, "Service Metrics");
@@ -239,9 +245,11 @@ void Service_Metrics::upTheBudget() {
                 std::vector<std::pair<std::pair<std::string, std::string>, double>> values;
                 values = directedGraph.largerBudgets();
                 std::map<std::pair<std::string, std::string>, double> valuesMap;
+
                 for(auto element : values){
                     valuesMap[element.first] += element.second;
                 }
+
                 std::vector<std::pair<std::pair<std::string, std::string>, double>> valuesVector;
                 for(auto element : valuesMap){
                     valuesVector.push_back(element);
@@ -250,7 +258,9 @@ void Service_Metrics::upTheBudget() {
                 std::sort(valuesVector.begin(), valuesVector.end(), [](std::pair<std::pair<std::string, std::string>, double> a, std::pair<std::pair<std::string, std::string>, double> b){
                     return a.second > b.second;
                 });
+
                 std::cout << "| The top " << i << " municipalities where the budget should be increased are: \n";
+
                 int j = 0;
                 for(auto element : valuesVector){
                     if(element.first.first != ""){
@@ -260,6 +270,7 @@ void Service_Metrics::upTheBudget() {
                         break;
                     }
                 }
+                j = 0;
             }
             std::cout << "|                                                           \n";
             checkStay(option3Stay, "Service Metrics");
