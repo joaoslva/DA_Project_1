@@ -62,9 +62,6 @@ bool Service_Metrics::start() {
         else{
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "| Select on of the following options                       \n";
-            serviceMetricsChoice = "";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
@@ -109,9 +106,6 @@ void Service_Metrics::help() {
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "|                                                          \n";
             std::cout << "| Enter here: ";
-            helpChoice = "";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
@@ -191,17 +185,19 @@ void Service_Metrics::upTheBudget() {
         std::cout << "|                                                           \n";
         if(option == "1"){
             std::string i;
-            std::cout << "| Please, enter the number of districts you want to see: ";
-            std::getline(std::cin, i);
-            std::cout << "|                                                           \n";
-            if(std::cin.eof()) {
-                std::cout << "| Not a valid input, please try again                      \n";
-                std::cout << "|                                                          \n";
-                i = "";
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            while(true){
+                try{
+                    std::cout << "| Please, enter the number of districts you want to see: ";
+                    std::getline(std::cin, i);
+                    std::cout << "|                                                           \n";
+                    std::stoi(i);
+                    break;
+                } catch (const std::invalid_argument& e) {
+                    std::cout << "| Not a valid input, please try again                      \n";
+                    std::cout << "|                                                          \n";
+                }
             }
-            else{
+
                 std::vector<std::pair<std::pair<std::string, std::string>, double>> values;
                 values = directedGraph.largerBudgets();
                 std::map<std::string, double> valuesMap;
@@ -224,24 +220,25 @@ void Service_Metrics::upTheBudget() {
                     std::cout << "| District nº " << ++j << ": " << element.first << ", with " << element.second << "train flowing;" <<"\n";
                     if(j==std::stoi(i)) break;
                 }
-                j = 0;
-            }
+
             std::cout << "|                                                           \n";
             checkStay(option3Stay, "Service Metrics");
         }
         else if(option == "2"){
             std::string i;
-            std::cout << "| Please, enter the number of municipalities you want to see: ";
-            std::getline(std::cin, i);
-            std::cout << "|                                                           \n";
-            if(std::cin.eof()) {
-                std::cout << "| Not a valid input, please try again                      \n";
-                std::cout << "|                                                          \n";
-                i = "";
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            while(true){
+                try{
+                    std::cout << "| Please, enter the number of municipalities you want to see: ";
+                    std::getline(std::cin, i);
+                    std::cout << "|                                                           \n";
+                    std::stoi(i);
+                    break;
+                } catch (const std::invalid_argument& e) {
+                    std::cout << "| Not a valid input, please try again                      \n";
+                    std::cout << "|                                                          \n";
+                }
             }
-            else{
+
                 std::vector<std::pair<std::pair<std::string, std::string>, double>> values;
                 values = directedGraph.largerBudgets();
                 std::map<std::pair<std::string, std::string>, double> valuesMap;
@@ -270,8 +267,6 @@ void Service_Metrics::upTheBudget() {
                         break;
                     }
                 }
-                j = 0;
-            }
             std::cout << "|                                                           \n";
             checkStay(option3Stay, "Service Metrics");
         }
@@ -279,9 +274,6 @@ void Service_Metrics::upTheBudget() {
         else{
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "|                                                          \n";
-            option = "";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
@@ -295,8 +287,8 @@ void Service_Metrics::arrrivingTrains() {
         std::cout << "| Please, write a station name: ";
         std::getline(std::cin, station);
         std::cout << "|                                                           \n";
-        result = directedGraph.arrivingTrains(station);
-        if(result == -2){
+        result = graph.arrivingTrains(station);
+        if(result == -1){
             std::cout << "| The station " << station << " does not exist. \n";
         }
         else{

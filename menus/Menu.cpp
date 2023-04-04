@@ -58,8 +58,6 @@ void Menu::start(){
         else{
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "|                                                          \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
@@ -131,9 +129,6 @@ void Menu::checkStay(bool& condition, const std::string& previousChoice){
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "|                                                          \n";
             std::cout << "| Enter here: ";
-            checkChoice = "";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }

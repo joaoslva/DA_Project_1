@@ -58,8 +58,6 @@ bool Line_Reliability::start() {
         else{
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "| Select on of the following options                       \n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }

@@ -263,52 +263,31 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::large
 
 double Graph::arrivingTrains(const std::string& stationName) {
     Station superSource = Station(-1, "SuperSource", "", "", "", "");
-    Station superSink = Station(-2, "SuperSink", "", "", "", "");
 
     // Add the super source and super sink stations to the graph
-    if (!addStation(superSource) || !addStation(superSink)) {
-        std::cout << "Error adding super source or super sink" << std::endl;
+    if (!addStation(superSource)) {
+        std::cout << "Error adding super source" << std::endl;
         return -1;
     }
 
     Railway stub = Railway("", "", std::numeric_limits<double>::infinity(), "");
     for(auto station : stations){
-        if(station->getIncomingRailways().empty() && !station->getOutgoingRailways().empty()){
+        if(station->getOutgoingRailways().size() == 1){
             addRailway("SuperSource", station->getName(), stub);
         }
     }
 
-    for(auto station : stations){
-        if(station->getOutgoingRailways().empty() && !station->getIncomingRailways().empty()){
-            addRailway(station->getName(), "SuperSink", stub);
-        }
-    }
-
     auto superSourcePointer = findStation(superSource.getName());
-    auto superSinkPointer = findStation(superSink.getName());
+    auto stationDestPointer = findStation(stationName);
+    if(!stationDestPointer)
+        return -1;
 
-    edmondsKarp(superSourcePointer, superSinkPointer);
+    double totalTrains;
+
+    //The total number of trains that can reach the dest station is the max flow of the edmonds karp algorithm
+    totalTrains = edmondsKarp(superSourcePointer, stationDestPointer);
 
     if(!removeStation("SuperSource")) std::cout << "SuperSource not removed" << std::endl;
-    if(!removeStation("SuperSink")) std::cout << "SuperSink not removed" << std::endl;
-
-    auto station = findStation(stationName);
-    if(station == nullptr){
-        return -2;
-    }
-
-    double totalTrains = 0;
-
-    if(station->getIncomingRailways().empty()){
-        for(auto railway : station->getOutgoingRailways()){
-            totalTrains += railway->getFlow();
-        }
-    }
-    else{
-        for(auto railway : station->getIncomingRailways()){
-            totalTrains += railway->getFlow();
-        }
-    }
 
     return totalTrains;
 }

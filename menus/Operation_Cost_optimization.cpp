@@ -51,9 +51,6 @@ bool Operation_Cost_optimization::start() {
         else{
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "| Select on of the following options                       \n";
-            operationCostOptimizationChoice = "";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
@@ -89,9 +86,6 @@ void Operation_Cost_optimization::help() {
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "|                                                          \n";
             std::cout << "| Enter here: ";
-            helpChoice = "";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
 }
