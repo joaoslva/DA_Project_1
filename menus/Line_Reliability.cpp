@@ -24,7 +24,7 @@ bool Line_Reliability::start() {
         std::cout << "| q - Quit application                                      \n";
         std::cout << "|                                                           \n";
         std::cout << "| Enter here your choice: ";
-        std::cin >> lineReliabilityChoice;
+        std::getline(std::cin, lineReliabilityChoice);
         std::cout << "|                                                           \n";
 
         if(lineReliabilityChoice == "1"){
@@ -86,7 +86,7 @@ void Line_Reliability::help() {
     std::cout << "| Enter here: ";
 
     while (true) {
-        std::cin >> helpChoice;
+        std::getline(std::cin, helpChoice);
         std::cout << "|                                                          \n";
 
         if (helpChoice == "back") {

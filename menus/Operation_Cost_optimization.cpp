@@ -24,7 +24,7 @@ bool Operation_Cost_optimization::start() {
         std::cout << "| q - Quit application                                      \n";
         std::cout << "|                                                           \n";
         std::cout << "| Enter here your choice: ";
-        std::cin >> operationCostOptimizationChoice;
+        std::getline(std::cin, operationCostOptimizationChoice);
         std::cout << "|                                                           \n";
 
         if(operationCostOptimizationChoice == "1"){
@@ -75,7 +75,7 @@ void Operation_Cost_optimization::help() {
     std::cout << "| Enter here: ";
 
     while(true){
-        std::cin >> helpChoice;
+        std::getline(std::cin, helpChoice);
         std::cout << "|                                                          \n";
 
         if(helpChoice == "back"){

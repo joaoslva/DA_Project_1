@@ -30,7 +30,7 @@ void Menu::start(){
         std::cout << "| q - Quit the program                                     \n";
         std::cout << "|                                                          \n";
         std::cout << "| Enter here your choice: ";
-        std::cin >> choice;
+        std::getline(std::cin, choice);
         std::cout << "|                                                          \n";
 
         if(choice == "1") {
@@ -89,7 +89,7 @@ void Menu::help() {
     std::cout << "| Enter here: ";
 
     while (true) {
-        std::cin >> helpChoice;
+        std::getline(std::cin,helpChoice);
         std::cout << "|                                                          \n";
 
         if (helpChoice == "back") {
@@ -112,7 +112,7 @@ void Menu::checkStay(bool& condition, const std::string& previousChoice){
         std::cout << "| Write 'stay' to use it again, 'back' to go back          \n";
         std::cout << "|                                                          \n";
         std::cout << "| Enter here: ";
-        std::cin >> checkChoice;
+        std::getline(std::cin, checkChoice);
         std::cout << "|                                                          \n";
 
         if(checkChoice == "stay"){

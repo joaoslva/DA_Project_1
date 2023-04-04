@@ -26,7 +26,7 @@ bool Service_Metrics::start() {
         std::cout << "| q - Quit application                                      \n";
         std::cout << "|                                                           \n";
         std::cout << "| Enter here your choice: ";
-        std::cin >> serviceMetricsChoice;
+        std::getline(std::cin, serviceMetricsChoice);
         std::cout << "|                                                           \n";
 
         if(serviceMetricsChoice == "1"){
@@ -95,7 +95,7 @@ void Service_Metrics::help() {
     std::cout << "| Enter here: ";
 
     while(true){
-        std::cin >> helpChoice;
+        std::getline(std::cin, helpChoice);
         std::cout << "|                                                          \n";
 
         if(helpChoice == "back"){
@@ -123,9 +123,9 @@ void Service_Metrics::maxTrainsAB() {
     std::cout << "| Welcome to Maximum Number of Trains between stations A and B  \n|\n";
     while(option1Stay){
         std::cout << "| Enter the source station: ";
-        std::cin >> sourceStation;
+        std::getline(std::cin, sourceStation);
         std::cout << "| Enter the destiny station: ";
-        std::cin >> destinyStation;
+        std::getline(std::cin, destinyStation);
         std::cout << "|                                                           \n";
         maxTrains = graph.getTrainsBetweenStations(sourceStation, destinyStation);
 
@@ -178,7 +178,7 @@ void Service_Metrics::pairsWithMostTrains() {
 
 void Service_Metrics::upTheBudget() {
     bool option3Stay = true;
-    int option;
+    std::string option;
     std::cout << "| Welcome to Locations to up the budget  \n|\n";
     while(option3Stay){
         std::cout << "| Please, choose on of the following options: \n";
@@ -187,17 +187,17 @@ void Service_Metrics::upTheBudget() {
         std::cout << "| 2 - See the top-k municipalities where the budget should be increased \n";
         std::cout << "|\n";
         std::cout << "| Enter here: ";
-        std::cin >> option;
+        std::getline(std::cin, option);
         std::cout << "|                                                           \n";
-        if(option == 1){
-            int i;
+        if(option == "1"){
+            std::string i;
             std::cout << "| Please, enter the number of districts you want to see: ";
-            std::cin >> i;
+            std::getline(std::cin, i);
             std::cout << "|                                                           \n";
             if(std::cin.eof()) {
                 std::cout << "| Not a valid input, please try again                      \n";
                 std::cout << "|                                                          \n";
-                i = 0;
+                i = "";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
@@ -222,22 +222,22 @@ void Service_Metrics::upTheBudget() {
                 std::cout << "| The top " << i << " districts where the budget should be increased are: \n";
                 for(auto element : valuesVector){
                     std::cout << "| District nº " << ++j << ": " << element.first << ", with " << element.second << "train flowing;" <<"\n";
-                    if(j==i) break;
+                    if(j==std::stoi(i)) break;
                 }
                 j = 0;
             }
             std::cout << "|                                                           \n";
             checkStay(option3Stay, "Service Metrics");
         }
-        else if(option == 2){
-            int i;
+        else if(option == "2"){
+            std::string i;
             std::cout << "| Please, enter the number of municipalities you want to see: ";
-            std::cin >> i;
+            std::getline(std::cin, i);
             std::cout << "|                                                           \n";
             if(std::cin.eof()) {
                 std::cout << "| Not a valid input, please try again                      \n";
                 std::cout << "|                                                          \n";
-                i = 0;
+                i = "";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
@@ -266,7 +266,7 @@ void Service_Metrics::upTheBudget() {
                     if(element.first.first != ""){
                         std::cout << "| Municipality nº " << ++j << ": " << element.first.second << ", in district " << element.first.first << ", since it has " << element.second << " trains flowing at maximum capacity;" <<"\n";
                     }
-                    if(j == i){
+                    if(j == std::stoi(i)){
                         break;
                     }
                 }
@@ -279,7 +279,7 @@ void Service_Metrics::upTheBudget() {
         else{
             std::cout << "| Not a valid input, please try again                      \n";
             std::cout << "|                                                          \n";
-            option = 0;
+            option = "";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
@@ -293,7 +293,7 @@ void Service_Metrics::arrrivingTrains() {
     std::cout << "| Welcome to Arriving Trains  \n|\n";
     while(option4Stay) {
         std::cout << "| Please, write a station name: ";
-        std::cin >> station;
+        std::getline(std::cin, station);
         std::cout << "|                                                           \n";
         result = directedGraph.arrivingTrains(station);
         if(result == -2){
