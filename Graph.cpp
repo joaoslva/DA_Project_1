@@ -61,7 +61,7 @@ bool Graph::removeStation(const std::string& name) {
     std::vector<Railway*> incomingRailways = stationToRemove->getIncomingRailways();
     for (Railway* railway : incomingRailways) {
         Station* sourceStation = railway->getSourceStationPointer();
-        sourceStation->deleteRailway(railway);
+        sourceStation->removeRailway(railway);
     }
 
     // Remove the station from the graph
