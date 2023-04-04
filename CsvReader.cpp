@@ -24,10 +24,26 @@ std::vector<Station> CsvReader::readStations(const std::string &filename) {
     while (getline(file, line)) {
         std::istringstream iss(line);
 
-        getline(iss, name, ',');
+        if(iss.peek() == '"'){
+            iss.ignore();
+            std::string temp;
+            getline(iss, temp, '"');
+            getline(iss, name, ',');
+            name = temp + name;
+        } else {
+            getline(iss, name, ',');
+        }
         getline(iss, district, ',');
         getline(iss, municipality, ',');
-        getline(iss, township, ',');
+        if(iss.peek() == '"'){
+            iss.ignore();
+            std::string temp;
+            getline(iss, temp, '"');
+            getline(iss, township, ',');
+            township = temp + township;
+        } else {
+            getline(iss, township, ',');
+        }
         getline(iss, lineName, ',');
 
         stations.emplace_back(id, name, district, municipality, township, lineName);
@@ -56,9 +72,25 @@ std::vector<Railway> CsvReader::readNetwork(const std::string &filename){
     {
         std::istringstream line_stream(line);
 
+        if(line_stream.peek() == '"'){
+            line_stream.ignore();
+            std::string temp;
+            getline(line_stream, temp, '"');
+            getline(line_stream, sourceStation, ',');
+            sourceStation = temp + sourceStation;
+        } else {
+            getline(line_stream, sourceStation, ',');
+        }
 
-        getline(line_stream, sourceStation, ',');
-        getline(line_stream, destinyStation, ',');
+        if(line_stream.peek() == '"'){
+            line_stream.ignore();
+            std::string temp;
+            getline(line_stream, temp, '"');
+            getline(line_stream, destinyStation, ',');
+            destinyStation = temp + destinyStation;
+        } else {
+            getline(line_stream, destinyStation, ',');
+        }
         getline(line_stream, capacityString, ',');
         getline(line_stream, service, ',');
 

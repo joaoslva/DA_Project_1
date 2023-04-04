@@ -6,15 +6,19 @@
 #include <unordered_map>
 #include <vector>
 #include <queue>
+#include <map>
+#include <limits>
 #include "StationRailway.h"
 
 class Graph {
 public:
-    bool addStation(const Station &station);
+    bool addStation(const Station& station);
     bool addRailway(const std::string& sourceStation, const std::string& destinyStation, const Railway& railway) const;
     bool addBidirectionalRailway(const std::string& sourceStation, const std::string& destinyStation, const Railway& railway) const;
     Station* findStation(const std::string &name) const;
     std::vector<Station*> getStations() const;
+    bool removeStation(const std::string& name);
+
 
 
     //Edmonds-Karp and auxiliary functions
@@ -22,10 +26,13 @@ public:
     bool findPath(Station* source, Station* destiny);
     double minResidualCapacity(Station* source, Station* destiny);
     void augmentFlow(Station* source, Station* destiny, double residualCapacity);
-    void edmondsKarp(Station* sourceStation, Station* destinyStation);
+    double edmondsKarp(Station* sourceStation, Station* destinyStation);
 
     //Functions for the requests
     double getTrainsBetweenStations(const std::string& source, const std::string& destiny);
+    std::vector<std::pair<std::pair<std::string, std::string>, double>> pairsWithMostTrains();
+    std::vector<std::pair<std::pair<std::string, std::string>, double>> largerBudgets();
+    double arrivingTrains(const std::string& stationName);
 
 private:
     std::vector<Station*> stations;

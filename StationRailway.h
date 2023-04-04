@@ -22,6 +22,8 @@ public:
             const std::string &line
     );
 
+    void removeRailway(Railway* railway);
+    void deleteRailway(Railway* railway);
     //Getters
     const std::string &getName() const;
     const std::string &getDistrict() const;
@@ -70,8 +72,8 @@ private:
 /* Railway class */
 class Railway{
 public:
-    Railway(const std::string& sourceStation, const std::string& destinyStation, int capacity, const std::string& service);
-    Railway(Station *sourceStation, Station *destinyStation, int capacity, const std::string& service);
+    Railway(const std::string& sourceStation, const std::string& destinyStation, double capacity, const std::string& service);
+    Railway(Station *sourceStation, Station *destinyStation, double capacity, const std::string& service);
 
     //Getters
     Station* getSourceStationPointer() const;

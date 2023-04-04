@@ -4,7 +4,7 @@
 
 #include "Operation_Cost_optimization.h"
 
-Operation_Cost_optimization::Operation_Cost_optimization(const Graph &graph): Menu(graph) {}
+Operation_Cost_optimization::Operation_Cost_optimization(const Graph &graph, const Graph &directedGraph): Menu(graph, directedGraph) {}
 
 bool Operation_Cost_optimization::start() {
     std::cout << "|---------------------------------------------------------- \n";

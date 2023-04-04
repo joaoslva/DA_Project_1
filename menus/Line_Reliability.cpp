@@ -3,7 +3,7 @@
 //
 
 #include "Line_Reliability.h"
-Line_Reliability::Line_Reliability(const Graph &graph): Menu(graph) {}
+Line_Reliability::Line_Reliability(const Graph &graph, const Graph &directedGraph): Menu(graph, directedGraph) {}
 
 bool Line_Reliability::start() {
     std::cout << "|---------------------------------------------------------- \n";
