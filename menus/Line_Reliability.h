@@ -9,7 +9,7 @@
 
 class Line_Reliability: public Menu{
 public:
-    explicit Line_Reliability(const Graph &graph);
+    explicit Line_Reliability(const Graph &graph, const Graph &directedGraph);
     bool start();
     void help();
 };

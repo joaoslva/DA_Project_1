@@ -24,6 +24,35 @@ Station::Station(const int &id, const std::string &name, const std::string &dist
     this->line = line;
 }
 
+void Station::removeRailway(Railway *railway) {
+    auto it = outgoingRailways.begin();
+    while (it != outgoingRailways.end()) {
+        Railway* r = *it;
+        Station* s = r->getDestinyStationPointer();
+        if(s->getId() == railway->getDestinyStationPointer()->getId()){
+            it = outgoingRailways.erase(it);
+            deleteRailway(r);
+        }
+        else{
+            it++;
+        }
+    }
+}
+
+void Station::deleteRailway(Railway *railway) {
+    Station* destinyStation = railway->getDestinyStationPointer();
+    auto it = destinyStation->incomingRailways.begin();
+    while (it != destinyStation->incomingRailways.end()) {
+        if((*it)->getSourceStationPointer()->getId() == this->getId()){
+            it = destinyStation->incomingRailways.erase(it);
+        }
+        else{
+            it++;
+        }
+    }
+    delete railway;
+}
+
 const std::string &Station::getName() const {
     return name;
 }
@@ -101,7 +130,7 @@ Railway *Station::getPath() const {
 
 // Raillway
 
-Railway::Railway(const std::string& sourceStation, const std::string& destinyStation, int capacity, const std::string &service) {
+Railway::Railway(const std::string& sourceStation, const std::string& destinyStation, double capacity, const std::string &service) {
     this->sourceStationString = sourceStation;
     this->destinyStationString = destinyStation;
     this->capacity = capacity;
@@ -109,7 +138,7 @@ Railway::Railway(const std::string& sourceStation, const std::string& destinySta
     this->flow = 0;
 }
 
-Railway::Railway(Station *origin, Station *destination, int capacity, const std::string &service) {
+Railway::Railway(Station *origin, Station *destination, double capacity, const std::string &service) {
     this->sourceStationPointer = origin;
     this->destinyStationPointer = destination;
     this->capacity = capacity;
