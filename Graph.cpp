@@ -313,15 +313,16 @@ double Graph::optimalCostTrains(const std::string& source, const std::string& de
         return -3;
     }
 
-    int minCost = 0;
+    double minCost = std::numeric_limits<double>::infinity();
     while(dijkstra(const_cast<std::string &>(sourceStation->getName()),
                    const_cast<std::string &>(destinyStation->getName()))){
         printPath(sourceStation, destinyStation);
         auto residualCapacity = minResidualCapacity(sourceStation, destinyStation);
         augmentFlow(sourceStation, destinyStation, residualCapacity);
-        minCost += destinyStation->getDistance()*residualCapacity;
-        std::cout << " |- The cost of this path is " << minCost << "€;\n";
+        minCost = std::min(minCost, destinyStation->getDistance()*residualCapacity);
+        std::cout << ". The cost of this path is " << destinyStation->getDistance()*residualCapacity << "€;\n";
     }
+
     return minCost;
 }
 
@@ -370,5 +371,12 @@ void Graph::printPath(Station* orig, Station* dest){
     if(it != orig){
         printPath(orig, it->getPath()->getSourceStationPointer());
     }
-    std::cout << "->" << it->getName();
+
+    if(it == orig){
+        std::cout << it->getName();
+    }
+
+    else {
+        std::cout << "->" << it->getName();
+    }
 }
