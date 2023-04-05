@@ -272,7 +272,7 @@ double Graph::arrivingTrains(const std::string& stationName) {
 
     Railway stub = Railway("", "", std::numeric_limits<double>::infinity(), "");
     for(auto station : stations){
-        if(station->getOutgoingRailways().size() == 1){
+        if(station->getOutgoingRailways().size() == 1 && station->getName() != stationName){
             addRailway("SuperSource", station->getName(), stub);
         }
     }
