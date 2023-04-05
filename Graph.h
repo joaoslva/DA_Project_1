@@ -33,6 +33,11 @@ public:
     std::vector<std::pair<std::pair<std::string, std::string>, double>> pairsWithMostTrains();
     std::vector<std::pair<std::pair<std::string, std::string>, double>> largerBudgets();
     double arrivingTrains(const std::string& stationName);
+    double optimalCostTrains(const std::string& source, const std::string& destiny);
+
+    //Idk what to call these
+    double costEdmondsKarp(Station* sourceStation, Station* destinyStation);
+    std::pair<double,double> minResidualCapacityCost(Station* source, Station* destiny);
 
 private:
     std::vector<Station*> stations;
