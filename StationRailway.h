@@ -45,7 +45,10 @@ public:
     void setDistance(int distance);
     void setPath(Railway* previousRailway);
 
-    Railway* addRailway(Station* station, double capacity, const std::string& service);
+    Railway* addRailway(Station* station, std::string sourceName, std::string destinyName, double capacity, const std::string& service);
+    bool operator< (const Station* station) const{
+        return this->getDistance() < station->getDistance();
+    }
 
 private:
     //Fields read from the csv file
@@ -73,7 +76,7 @@ private:
 class Railway{
 public:
     Railway(const std::string& sourceStation, const std::string& destinyStation, double capacity, const std::string& service);
-    Railway(Station *sourceStation, Station *destinyStation, double capacity, const std::string& service);
+    Railway(Station *sourceStation, Station *destinyStation, std::string sourceName, std::string destinyName, double capacity, const std::string& service);
 
     //Getters
     Station* getSourceStationPointer() const;
