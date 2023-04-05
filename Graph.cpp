@@ -262,6 +262,10 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::large
 }
 
 double Graph::arrivingTrains(const std::string& stationName) {
+    auto stationDestPointer = findStation(stationName);
+    if(!stationDestPointer)
+        return -1;
+
     Station superSource = Station(-1, "SuperSource", "", "", "", "");
 
     // Add the super source and super sink stations to the graph
@@ -278,9 +282,6 @@ double Graph::arrivingTrains(const std::string& stationName) {
     }
 
     auto superSourcePointer = findStation(superSource.getName());
-    auto stationDestPointer = findStation(stationName);
-    if(!stationDestPointer)
-        return -1;
 
     double totalTrains;
 
