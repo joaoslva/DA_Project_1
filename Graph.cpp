@@ -104,13 +104,7 @@ bool Graph::findPath(Station* source, Station* destiny) {
     }
     return destiny->isVisited();
 }
-/**
- * @brief Calculates the minimum residual capacity along the path from source to destiny station.
- * @param source Pointer to the source station.
- * @param destiny Pointer to the destiny station.
- * @return Minimum residual capacity of the path.
- * @note Time complexity: O(|V|) for a graph with |V| vertices.
- */
+
 double Graph::minResidualCapacity(Station* source, Station* destiny) {
     double minResidualCapacity = INT_MAX;
     for (auto station = destiny; station != source;) {
@@ -126,13 +120,7 @@ double Graph::minResidualCapacity(Station* source, Station* destiny) {
     }
     return minResidualCapacity;
 }
-/**
- * @brief Augments the flow along the path from source to destiny station by the given residual capacity.
- * @param source Pointer to the source station.
- * @param destiny Pointer to the destiny station.
- * @param residualCapacity The amount by which the flow should be augmented.
- * @note Time complexity: O(|V|) for a graph with |V| vertices.
- */
+
 
 void Graph::augmentFlow(Station* source, Station* destiny, double residualCapacity) {
     for (auto station = destiny; station != source;) {
@@ -148,13 +136,7 @@ void Graph::augmentFlow(Station* source, Station* destiny, double residualCapaci
         }
     }
 }
-/**
- * @brief Computes the maximum flow in a flow network using the Edmonds-Karp algorithm.
- * @param sourceStation Pointer to the source station.
- * @param destinyStation Pointer to the destination station.
- * @return Maximum flow between source and destination stations.
- * @note Time complexity: O(|V|^3) for a graph with |V| vertices.
- */
+
 
 double Graph::edmondsKarp(Station* sourceStation, Station* destinyStation) {
     for (auto station : stations) {
@@ -176,13 +158,7 @@ double Graph::edmondsKarp(Station* sourceStation, Station* destinyStation) {
     return maxFlow;
 }
 
-/**
- * @brief Calculates the maximum number of trains that can travel between two stations using the Edmonds-Karp algorithm.
- * @param source The name of the source station.
- * @param destiny The name of the destiny station.
- * @return Maximum number of trains between the source and destiny stations, or an error code (-1, -2, or -3) if the stations are invalid or the same.
- * @note Time complexity: O(|V|^3) for a graph with |V| vertices, as it calls the edmondsKarp function.
- */
+
 
 double Graph::getTrainsBetweenStations(const std::string &source, const std::string &destiny) {
     auto sourceStation = findStation(source);
@@ -286,12 +262,7 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::large
 
     return returnPairs;
 }
-/**
- * @brief Calculates the total number of trains arriving at a given station using the Edmonds-Karp algorithm.
- * @param stationName The name of the station for which the arriving trains should be calculated.
- * @return The total number of trains arriving at the specified station, or -1 if the station is not found or an error occurs.
- * @note Time complexity: O(|V|^3) for a graph with |V| vertices, as it calls the edmondsKarp function.
- */
+
 
 double Graph::arrivingTrains(const std::string& stationName) {
     auto stationDestPointer = findStation(stationName);
@@ -324,13 +295,7 @@ double Graph::arrivingTrains(const std::string& stationName) {
 
     return totalTrains;
 }
-/**
- * @brief Calculates the optimal cost of trains traveling between two stations using a cost variant of the Edmonds-Karp algorithm.
- * @param source The name of the source station.
- * @param destiny The name of the destiny station.
- * @return Optimal cost of trains between the source and destiny stations, or an error code (-1, -2, or -3) if the stations are invalid or the same.
- * @note Time complexity depends on the implementation of the costEdmondsKarp function.
- */
+
 
 double Graph::optimalCostTrains(const std::string& source, const std::string& destiny){
     for (auto station : stations) {
@@ -364,13 +329,7 @@ double Graph::optimalCostTrains(const std::string& source, const std::string& de
 
     return minCost;
 }
-/**
- * @brief Computes the minimum cost for maximum flow in a flow network using a cost variant of the Edmonds-Karp algorithm.
- * @param sourceStation Pointer to the source station.
- * @param destinyStation Pointer to the destination station.
- * @return Minimum cost for maximum flow between source and destination stations.
- * @note Time complexity depends on the implementation of findPath, minResidualCapacityCost, and augmentFlow functions.
- */
+
 
 bool Graph::dijkstra(std::string& source, std::string& dest) {
 
@@ -411,13 +370,7 @@ bool Graph::dijkstra(std::string& source, std::string& dest) {
     if (!findStation(dest)->isVisited()) return false;
     return true;
 }
-/**
- * @brief Calculates the minimum residual capacity and cost along the path from source to destiny station.
- * @param source Pointer to the source station.
- * @param destiny Pointer to the destiny station.
- * @return A pair where the first element is the cost and the second element is the minimum residual capacity of the path.
- * @note Time complexity: O(|V|) for a graph with |V| vertices.
- */
+
 
 void Graph::printPath(Station* orig, Station* dest){
     auto it = dest;
