@@ -45,7 +45,7 @@ int main() {
 
     if (errorCheck(&graph, &directedGraph, stations, railways)) return 1;
     //----------------------------------------------------
-
+    /*
     for(auto station: graph.getStations()){
         std::cout << "|--------------------\n";
         std::cout << "Station name: " << station->getName() << std::endl;
@@ -68,6 +68,7 @@ int main() {
             std::cout << station->getName() << std::endl;
         }
     }
+     */
     Menu menu = Menu(graph, directedGraph);
     menu.start();
     return 0;

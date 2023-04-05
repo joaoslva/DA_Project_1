@@ -35,9 +35,9 @@ public:
     double arrivingTrains(const std::string& stationName);
     double optimalCostTrains(const std::string& source, const std::string& destiny);
 
-    //Idk what to call these
-    double costEdmondsKarp(Station* sourceStation, Station* destinyStation);
-    std::pair<double,double> minResidualCapacityCost(Station* source, Station* destiny);
+    bool dijkstra(std::string& source, std::string& dest);
+
+    void printPath(Station* orig, Station* dest);
 
 private:
     std::vector<Station*> stations;

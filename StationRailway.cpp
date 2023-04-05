@@ -113,8 +113,8 @@ void Station::setDistance(int distance) {
     Station::distance = distance;
 }
 
-Railway *Station::addRailway(Station *station, double capacity, const std::string &service) {
-    Railway* railway = new Railway(this, station, capacity, service);
+Railway *Station::addRailway(Station *station, std::string sourceName, std::string destinyName, double capacity, const std::string &service) {
+    Railway* railway = new Railway(this, station, sourceName, destinyName, capacity, service);
     outgoingRailways.push_back(railway);
     station->incomingRailways.push_back(railway);
     return railway;
@@ -138,9 +138,11 @@ Railway::Railway(const std::string& sourceStation, const std::string& destinySta
     this->flow = 0;
 }
 
-Railway::Railway(Station *origin, Station *destination, double capacity, const std::string &service) {
+Railway::Railway(Station *origin, Station *destination, std::string sourceName, std::string destinyName, double capacity, const std::string &service) {
     this->sourceStationPointer = origin;
     this->destinyStationPointer = destination;
+    this->destinyStationString = destinyName;
+    this->sourceStationString = sourceStationString;
     this->capacity = capacity;
     this->service = service;
     this->flow = 0;
