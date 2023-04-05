@@ -35,7 +35,7 @@ public:
     double arrivingTrains(const std::string& stationName);
     double optimalCostTrains(const std::string& source, const std::string& destiny);
 
-    bool dijkstra(std::string& source, std::string& dest, int& min_cost);
+    bool dijkstra(std::string& source, std::string& dest);
 
     void printPath(Station* orig, Station* dest);
 

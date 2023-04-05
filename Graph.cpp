@@ -294,6 +294,11 @@ double Graph::arrivingTrains(const std::string& stationName) {
 }
 
 double Graph::optimalCostTrains(const std::string& source, const std::string& destiny){
+    for (auto station : stations) {
+        for (auto railway : station->getOutgoingRailways()) {
+            railway->setFlow(0);
+        }
+    }
     auto sourceStation = findStation(source);
     auto destinyStation = findStation(destiny);
     if(sourceStation == nullptr){
@@ -308,17 +313,19 @@ double Graph::optimalCostTrains(const std::string& source, const std::string& de
         return -3;
     }
 
-    edmondsKarp(sourceStation,destinyStation);
-
     int minCost = 0;
     while(dijkstra(const_cast<std::string &>(sourceStation->getName()),
-                   const_cast<std::string &>(destinyStation->getName()), minCost)){
+                   const_cast<std::string &>(destinyStation->getName()))){
         printPath(sourceStation, destinyStation);
+        auto residualCapacity = minResidualCapacity(sourceStation, destinyStation);
+        augmentFlow(sourceStation, destinyStation, residualCapacity);
+        minCost += destinyStation->getDistance()*residualCapacity;
         std::cout << " |- The cost of this path is " << minCost << "€;\n";
     }
+    return minCost;
 }
 
-bool Graph::dijkstra(std::string& source, std::string& dest, int& min_cost) {
+bool Graph::dijkstra(std::string& source, std::string& dest) {
 
     std::priority_queue<Station *> q;
     for (Station *station: stations) {
@@ -343,11 +350,10 @@ bool Graph::dijkstra(std::string& source, std::string& dest, int& min_cost) {
             Station * contender = railway->getDestinyStationPointer();
             if (contender->isVisited()) continue;
 
-            if (railway->getFlow()==0) continue;
-
             double cost = (railway->getService() == "STANDARD" ? 2 : 4);
+            double residualCapacity = railway->getCapacity()-railway->getFlow();
 
-            if (contender->getDistance() > top->getDistance() + cost) {
+            if (contender->getDistance() > top->getDistance() + cost && residualCapacity>0) {
                 contender->setDistance(top->getDistance() + cost);
                 contender->setPath(railway);
                 q.push(contender);
@@ -356,7 +362,6 @@ bool Graph::dijkstra(std::string& source, std::string& dest, int& min_cost) {
     }
 
     if (!findStation(dest)->isVisited()) return false;
-    min_cost = findStation(dest)->getDistance();
     return true;
 }
 
