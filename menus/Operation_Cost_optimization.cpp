@@ -28,11 +28,7 @@ bool Operation_Cost_optimization::start() {
         std::cout << "|                                                           \n";
 
         if(operationCostOptimizationChoice == "1"){
-            bool option1Stay = true;
-            while(option1Stay){
-                std::cout << "| Option 1 selected \n";
-                checkStay(option1Stay, "Operation Cost Optimization");
-            }
+            optimalCost();
         }
 
         else if(operationCostOptimizationChoice == "2")
@@ -87,5 +83,48 @@ void Operation_Cost_optimization::help() {
             std::cout << "|                                                          \n";
             std::cout << "| Enter here: ";
         }
+    }
+}
+
+void Operation_Cost_optimization::optimalCost(){
+    bool option1Stay = true;
+    double maxTrains;
+    std::string sourceStation, destinyStation;
+    std::cout << "| Welcome to Maximum Number of Trains between stations A and B  \n|\n";
+    while(option1Stay){
+        std::cout << "| Enter the source station: ";
+        std::getline(std::cin, sourceStation);
+        std::cout << "| Enter the destiny station: ";
+        std::getline(std::cin, destinyStation);
+        std::cout << "|                                                           \n";
+        maxTrains = graph.optimalCostTrains(sourceStation, destinyStation);
+
+        if(maxTrains == -1){
+            std::cout << "| Error: Invalid source station name\n";
+            std::cout << "|                                                           \n";
+            return;
+        }
+
+        if(maxTrains == -2){
+            std::cout << "| Error: Invalid destiny station name\n";
+            std::cout << "|                                                           \n";
+            return;
+        }
+
+        if(maxTrains == -3){
+            std::cout << "| Error: Source and destiny stations are the same\n";
+            std::cout << "|                                                           \n";
+            return;
+        }
+
+        if(maxTrains == 0){
+            std::cout << "| Error: No railway between source and destiny stations\n";
+            std::cout << "|                                                           \n";
+            return;
+        }
+
+        std::cout << "| Minimum price for max trains between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "\n";
+        std::cout << "|                                                           \n";
+        checkStay(option1Stay, "Operation Cost Optimization");
     }
 }

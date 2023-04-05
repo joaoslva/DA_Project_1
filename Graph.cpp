@@ -291,3 +291,59 @@ double Graph::arrivingTrains(const std::string& stationName) {
 
     return totalTrains;
 }
+
+double Graph::optimalCostTrains(const std::string& source, const std::string& destiny){
+    auto sourceStation = findStation(source);
+    auto destinyStation = findStation(destiny);
+    if(sourceStation == nullptr){
+        return -1;
+    }
+
+    if(destinyStation == nullptr){
+        return -2;
+    }
+
+    if(sourceStation == destinyStation){
+        return -3;
+    }
+
+    return costEdmondsKarp(sourceStation, destinyStation);
+}
+
+double Graph::costEdmondsKarp(Station* sourceStation, Station* destinyStation) {
+    for (auto station : stations) {
+        for (auto railway : station->getOutgoingRailways()) {
+            railway->setFlow(0);
+        }
+    }
+
+    double minCost = 0;
+    int i = 0;
+
+    while (findPath(sourceStation, destinyStation)) {
+        std::cout << "Path " << i++ << std::endl;
+        auto result = minResidualCapacityCost(sourceStation, destinyStation);
+        minCost += result.first*result.second;
+        augmentFlow(sourceStation, destinyStation, result.second);
+    }
+
+    return minCost;
+}
+
+std::pair<double,double> Graph::minResidualCapacityCost(Station* source, Station* destiny) {
+    std::pair<double,double> minResidualCapacity = {0,INT_MAX};
+    int price = 0;
+    for (auto station = destiny; station != source;) {
+        auto railway = station->getPath();
+        if (railway->getDestinyStationPointer() == station) {
+            price += railway->getService()=="STANDARD" ? 2:4;
+            minResidualCapacity = {price,std::min(minResidualCapacity.second, railway->getCapacity() - railway->getFlow())};
+            station = railway->getSourceStationPointer();
+        }
+        else {
+            minResidualCapacity = {price,std::min(minResidualCapacity.second, railway->getFlow())};
+            station = railway->getDestinyStationPointer();
+        }
+    }
+    return minResidualCapacity;
+}
