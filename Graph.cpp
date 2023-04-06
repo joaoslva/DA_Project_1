@@ -146,10 +146,8 @@ double Graph::edmondsKarp(Station* sourceStation, Station* destinyStation) {
     }
 
     double maxFlow = 0;
-    int i = 0;
 
     while (findPath(sourceStation, destinyStation)) {
-        std::cout << "Path " << i++ << std::endl;
         auto residualCapacity = minResidualCapacity(sourceStation, destinyStation);
         maxFlow += residualCapacity;
         augmentFlow(sourceStation, destinyStation, residualCapacity);
@@ -181,13 +179,33 @@ double Graph::getTrainsBetweenStations(const std::string &source, const std::str
 std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::pairsWithMostTrains() {
     std::vector<std::pair<std::pair<std::string, std::string>, double>> pairs;
     std::vector<std::pair<std::pair<std::string, std::string>, double>> returnPairs;
+    std::cout << "| Calculating pairs:                                        |" << std::endl;
+    sleep(3);
+    std::cout << "| [                    ]" << std::flush; // initial progress bar
+
+    int max = 521;
+    int j= 0;
     for(auto station : stations){
         for(auto station2 : stations){
             if(station != station2){
                 pairs.emplace_back(std::make_pair(station->getName(), station2->getName()), getTrainsBetweenStations(station->getName(), station2->getName()));
             }
         }
+        ++j;
+        float progress = static_cast<float>(j) / static_cast<float>(max);
+        int barWidth = 20;
+        std::cout << "\r| [";
+        int pos = static_cast<int>(barWidth * progress);
+        for (int i = 0; i < barWidth; ++i) {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << " ";
+        }
+        std::cout << "] " << static_cast<int>(progress * 100.0) << "% " << std::flush;
     }
+    std::cout << std::endl;
+    std::cout << "| Done!                                                     |\n";
+    std::cout << "|                                                           |\n";
 
     std::sort(pairs.begin(), pairs.end(), [](const std::pair<std::pair<std::string, std::string>, double>& a, const std::pair<std::pair<std::string, std::string>, double>& b){
         return a.second > b.second;

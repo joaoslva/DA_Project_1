@@ -8,6 +8,8 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <unistd.h>
+#include <iomanip>
 #include "../Graph.h"
 
 class Menu {
