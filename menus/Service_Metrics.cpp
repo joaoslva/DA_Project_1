@@ -116,7 +116,7 @@ void Service_Metrics::maxTrainsAB() {
     double maxTrains;
     std::string sourceStation, destinyStation;
     std::cout << "| Welcome to Maximum Number of Trains between stations      |\n";
-    std::cout << "| A and B.                                                  |\n\n";
+    std::cout << "| A and B.                                                  |\n";
     while(option1Stay){
         std::cout << "| Enter the source station: ";
         std::getline(std::cin, sourceStation);
