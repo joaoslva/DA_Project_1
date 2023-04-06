@@ -126,10 +126,19 @@ void Menu::checkStay(bool& condition, const std::string& previousChoice){
             condition = false;
             std::cout << "|---------------------------------------------------------- |\n";
             std::cout << "|                                                           |\n";
-            std::cout << "| Select one of the " + previousChoice + " options below";
-            for(int i = 0; i < 59 - 33 - previousChoice.size(); i++) std::cout << " ";
-            std::cout << "|\n";
-            break;
+            if(previousChoice == "Operation Cost Optimization"){
+                std::cout << "| Select one of the Operation Cost Optimization             |\n";
+                std::cout << "| options below to get started.                             |\n";
+                break;
+            }
+
+            else{
+                std::cout << "| Select one of the " + previousChoice + " options below";
+                for(int i = 0; i < 59 - 33 - previousChoice.size(); i++) std::cout << " ";
+                std::cout << "|\n";
+                break;
+            }
+
         }
 
         else{

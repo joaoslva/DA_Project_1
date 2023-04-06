@@ -107,26 +107,28 @@ void Operation_Cost_optimization::optimalCost(){
             checkStay(option1Stay, "Operation Cost Optimization");
         }
 
-        if(maxTrains == -2){
+        else if(maxTrains == -2){
             std::cout << "| Error: Invalid destiny station name                       |\n";
             std::cout << "|                                                           |\n";
             checkStay(option1Stay, "Operation Cost Optimization");
         }
 
-        if(maxTrains == -3){
+        else if(maxTrains == -3){
             std::cout << "| Error: Source and destiny stations are the same           |\n";
             std::cout << "|                                                           |\n";
             checkStay(option1Stay, "Operation Cost Optimization");
         }
 
-        if(maxTrains == 0){
+        else if(maxTrains == 0){
             std::cout << "| Error: No railway between source and destiny stations     |\n";
             std::cout << "|                                                           |\n";
             checkStay(option1Stay, "Operation Cost Optimization");
         }
 
-        std::cout << "| Minimum price for max trains between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "\n";
-        std::cout << "|                                                           \n";
-        checkStay(option1Stay, "Operation Cost Optimization");
+        else{
+            std::cout << "| Minimum price for max trains between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "\n";
+            std::cout << "|                                                           \n";
+            checkStay(option1Stay, "Operation Cost Optimization");
+        }
     }
 }
