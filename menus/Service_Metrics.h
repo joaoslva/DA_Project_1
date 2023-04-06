@@ -16,7 +16,7 @@ public:
     void maxTrainsAB();
     void pairsWithMostTrains();
     void upTheBudget();
-    void arrrivingTrains();
+    void arrivingTrains();
 };
 
 
