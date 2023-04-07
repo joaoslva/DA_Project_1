@@ -1,7 +1,6 @@
 #include "Graph.h"
 
 
-
 bool Graph::addStation(const Station& station) {
     if(findStation(station.getName()) != nullptr){
         return false;
@@ -336,14 +335,18 @@ double Graph::optimalCostTrains(const std::string& source, const std::string& de
     }
 
     double minCost = std::numeric_limits<double>::infinity();
-    while(dijkstra(const_cast<std::string &>(sourceStation->getName()),
+    if(dijkstra(const_cast<std::string &>(sourceStation->getName()),
                    const_cast<std::string &>(destinyStation->getName()))){
         printPath(sourceStation, destinyStation);
         auto residualCapacity = minResidualCapacity(sourceStation, destinyStation);
         augmentFlow(sourceStation, destinyStation, residualCapacity);
         minCost = std::min(minCost, destinyStation->getDistance()*residualCapacity);
-        std::cout << ". The cost of this path is " << destinyStation->getDistance()*residualCapacity << "€;\n";
+        std::cout << ".\n The cost of this path is " << destinyStation->getDistance() << "€. ";
+        std::cout << "It can support " << residualCapacity << " trains.\n";
+        std::cout << "Total: " << destinyStation->getDistance()*residualCapacity << "€. \n\n";
+
     }
+    else return 0;
 
     return minCost;
 }
@@ -351,18 +354,18 @@ double Graph::optimalCostTrains(const std::string& source, const std::string& de
 
 bool Graph::dijkstra(std::string& source, std::string& dest) {
 
-    std::priority_queue<Station *> q;
+    MutablePriorityQueue<Station> q;
     for (Station *station: stations) {
         station->setVisited(false);
         station->setDistance(INT32_MAX);
         station->setPath(nullptr);
+        station->setBottleneck(INT32_MAX);
     }
     auto first = findStation(source);
     first->setDistance(0);
-    q.push(first);
+    q.insert(first);
     while (!q.empty()) {
-        Station *top = q.top();
-        q.pop();
+        Station *top = q.extractMin();
 
         if (top->isVisited()) continue;
         top->setVisited(true);
@@ -375,13 +378,20 @@ bool Graph::dijkstra(std::string& source, std::string& dest) {
             if (contender->isVisited()) continue;
 
             double cost = (railway->getService() == "STANDARD" ? 2 : 4);
-            double residualCapacity = railway->getCapacity()-railway->getFlow();
+            int bottleNeck = std::min(top->getBottleneck(),static_cast<int> (railway->getCapacity()));
 
-            if (contender->getDistance() > top->getDistance() + cost && residualCapacity>0) {
+            if (contender->getDistance() > top->getDistance() + cost) {
                 contender->setDistance(top->getDistance() + cost);
                 contender->setPath(railway);
-                q.push(contender);
+                contender->setBottleneck(bottleNeck);
+                q.insert(contender);
             }
+
+            else if (contender->getDistance() == top->getDistance() + cost && contender->getBottleneck()<bottleNeck) {
+                contender->setPath(railway);
+                contender->setBottleneck(bottleNeck);
+            }
+
         }
     }
 

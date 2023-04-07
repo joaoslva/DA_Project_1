@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include "MutablePriorityQueue.h"
 
 class Railway;
 
@@ -37,6 +38,7 @@ public:
     bool isProcessing() const;
     int getDistance() const;
     Railway* getPath() const;
+    int getBottleneck() const;
 
     //Setters
     void setID(int id);
@@ -44,11 +46,15 @@ public:
     void setProcessing(bool processing);
     void setDistance(int distance);
     void setPath(Railway* previousRailway);
+    void setBottleneck(int bottleneck);
 
     Railway* addRailway(Station* station, std::string sourceName, std::string destinyName, double capacity, const std::string& service);
-    bool operator< (const Station* station) const{
-        return this->getDistance() < station->getDistance();
+    bool operator< (const Station station) const{
+        return this->getDistance() < station.getDistance();
     }
+
+protected:
+    int queueIndex;
 
 private:
     //Fields read from the csv file
@@ -68,8 +74,11 @@ private:
     bool processing = false;
 
     int distance;
+    int bottleneck;
 
     Railway* path = nullptr;
+
+friend class MutablePriorityQueue<Station>;
 };
 
 /* Railway class */
