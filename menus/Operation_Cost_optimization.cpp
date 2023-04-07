@@ -124,8 +124,7 @@ void Operation_Cost_optimization::optimalCost(){
             std::cout << "|                                                           |\n";
             checkStay(option1Stay, "Operation Cost Optimization");
         }
-
-        else{
+        else {
             std::cout << "| Minimum price for max trains between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "\n";
             std::cout << "|                                                           \n";
             checkStay(option1Stay, "Operation Cost Optimization");

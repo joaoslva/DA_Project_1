@@ -97,6 +97,10 @@ int Station::getDistance() const {
     return distance;
 }
 
+int Station::getBottleneck() const{
+    return bottleneck;
+}
+
 void Station::setID(int id) {
     Station::id = id;
 }
@@ -186,4 +190,8 @@ Railway* Railway::getReverseRailway() const {
 
 void Railway::setReverseRailway(Railway *reverseRailway) {
     reverseRailway = reverseRailway;
+}
+
+void Station::setBottleneck(int bottleNeck){
+    this->bottleneck = bottleNeck;
 }
