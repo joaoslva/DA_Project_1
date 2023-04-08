@@ -128,25 +128,21 @@ void Service_Metrics::maxTrainsAB() {
         if(maxTrains == -1){
             std::cout << "| Error: Invalid source station name                        |\n";
             std::cout << "|                                                           |\n";
-            checkStay(option1Stay, "Service Metrics");
         }
 
         else if(maxTrains == -2){
             std::cout << "| Error: Invalid destiny station name                       |\n";
             std::cout << "|                                                           |\n";
-            checkStay(option1Stay, "Service Metrics");
         }
 
         else if(maxTrains == -3){
             std::cout << "| Error: Source and destiny stations are the same           |\n";
             std::cout << "|                                                           |\n";
-            checkStay(option1Stay, "Service Metrics");
         }
 
         else if(maxTrains == 0){
             std::cout << "| Error: No railway between source and destiny stations     |\n";
             std::cout << "|                                                           |\n";
-            checkStay(option1Stay, "Service Metrics");
         }
 
         else{
@@ -157,8 +153,8 @@ void Service_Metrics::maxTrainsAB() {
             for(int i = 0; i < 59 - maxTrains - 26; i++) std::cout << " ";
             std::cout << "|\n";
             std::cout << "|                                                           |\n";
-            checkStay(option1Stay, "Service Metrics");
         }
+        checkStay(option1Stay, "Service Metrics");
     }
 }
 

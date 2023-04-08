@@ -11,6 +11,9 @@ class Line_Reliability: public Menu{
 public:
     explicit Line_Reliability(const Graph &graph, const Graph &directedGraph);
     bool start();
+    void reducedMaxTrainsAB();
+    void listTrainLines();
+    std::string lineSelected(int num);
     void help();
 };
 

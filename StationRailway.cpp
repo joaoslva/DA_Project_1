@@ -43,7 +43,7 @@ void Station::deleteRailway(Railway *railway) {
     Station* destinyStation = railway->getDestinyStationPointer();
     auto it = destinyStation->incomingRailways.begin();
     while (it != destinyStation->incomingRailways.end()) {
-        if((*it)->getSourceStationPointer()->getId() == this->getId()){
+        if((*it)->getSourceStationPointer()->getId() == id){
             it = destinyStation->incomingRailways.erase(it);
         }
         else{
@@ -146,7 +146,7 @@ Railway::Railway(Station *origin, Station *destination, std::string sourceName, 
     this->sourceStationPointer = origin;
     this->destinyStationPointer = destination;
     this->destinyStationString = destinyName;
-    this->sourceStationString = sourceStationString;
+    this->sourceStationString = sourceName;
     this->capacity = capacity;
     this->service = service;
     this->flow = 0;

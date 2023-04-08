@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <map>
 #include <limits>
+#include <stack>
 #include "StationRailway.h"
 
 class Graph {
@@ -94,6 +95,7 @@ public:
     * @note Time complexity: O(|V|) for a graph with |V| vertices.
     */
     void printPath(Station* orig, Station* dest);
+    double getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line);
 
 private:
     std::vector<Station*> stations;

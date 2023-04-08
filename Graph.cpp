@@ -399,6 +399,53 @@ bool Graph::dijkstra(std::string& source, std::string& dest) {
 
 
 void Graph::printPath(Station* orig, Station* dest){
+    /*
+    auto itr = dest;
+    std::stack<std::string> stations;
+    auto it = dest;
+    for(; it != orig;){
+        stations.push(it->getName());
+        it = it->getPath()->getSourceStationPointer();
+    }
+    stations.push(it->getName());
+    std::string output;
+    std::cout << "| Here's the path from " << orig->getName() << " to " << dest->getName() << ":";
+    for(int i = 0; i < 59 - orig->getName().length() - dest->getName().length() - 27; i++) std::cout << " ";
+    std::cout << "|\n";
+    std::cout << "Here\n";
+
+    while (stations.size() > 1){
+        if(output.length() + stations.top().length() + 5 < 57){
+            output += stations.top() + " -> ";
+            stations.pop();
+        }
+
+        else{
+            std::cout << "| " << output;
+            for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
+            std::cout << "|";
+        }
+    }
+
+    if(output.length() + stations.top().length() + 5 < 57){
+        output += stations.top() + " -> ";
+        stations.pop();
+        std::cout << output;
+        for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
+        std::cout << "|\n";
+    }
+
+    else{
+        std::cout << "| " << output;
+        for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
+        std::cout << "| " << stations.top();
+        stations.pop();
+        for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
+        std::cout << "|\n";
+    }
+     */
+
+
     auto it = dest;
     if(it != orig){
         printPath(orig, it->getPath()->getSourceStationPointer());
@@ -411,4 +458,39 @@ void Graph::printPath(Station* orig, Station* dest){
     else {
         std::cout << "->" << it->getName();
     }
+
+}
+
+double Graph::getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line) {
+    auto sourceStation = findStation(source);
+    auto destinyStation = findStation(destiny);
+    if(sourceStation == nullptr){
+        return -1;
+    }
+    if(destinyStation == nullptr){
+        return -2;
+    }
+    if(sourceStation == destinyStation){
+        return -3;
+    }
+    if(sourceStation->getLine()==line && destinyStation->getLine()==line){
+        return -4;
+    }
+    if(sourceStation->getLine()==line){
+        return -5;
+    }
+    if(destinyStation->getLine()==line){
+        return -6;
+    }
+    auto it = stations.begin();
+    while(it != stations.end()){
+        if ((*it)->getLine()==line){
+            removeStation((*it)->getName());
+        } else {
+            it++;
+        }
+    }
+    sourceStation = findStation(source);
+    destinyStation = findStation(destiny);
+    return edmondsKarp(sourceStation, destinyStation);
 }
