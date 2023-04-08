@@ -96,6 +96,7 @@ public:
     */
     void printPath(Station* orig, Station* dest);
     double getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line);
+    std::vector<std::pair<std::pair<std::string, double>,double>> stationSegmentFailureImpact(const std::vector<Railway*>& segmentsImpacted);
 
 private:
     std::vector<Station*> stations;

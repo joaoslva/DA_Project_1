@@ -322,10 +322,10 @@ void Service_Metrics::arrivingTrains() {
             std::cout << "|\n";
         }
         else{
-            std::cout << "| The station " << station << " has " << result << " trains arriving, when taking";
-            for(int i = 0; i < 59 - station.size() - 47 - (result > 10 ? 2 : 1); i++) std::cout << " ";
+            std::cout << "| The station " << station << " has " << result << " trains";
+            for(int i = 0; i < 59 - station.size() - 25 - (result > 10 ? 2 : 1); i++) std::cout << " ";
             std::cout << "|\n";
-            std::cout << "| into account the whole grid.                              |\n";
+            std::cout << "| arriving, when taking into account the whole grid.        |\n";
         }
         std::cout << "|                                                           |\n";
         checkStay(option4Stay, "Service Metrics");
