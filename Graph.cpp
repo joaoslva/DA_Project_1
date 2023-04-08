@@ -482,15 +482,21 @@ double Graph::getTrainsBetweenStationsReduced(const std::string &source, const s
     if(destinyStation->getLine()==line){
         return -6;
     }
-    auto it = stations.begin();
-    while(it != stations.end()){
-        if ((*it)->getLine()==line){
-            removeStation((*it)->getName());
-        } else {
-            it++;
+    std::vector<Railway> severedRailways;
+    for(auto station:stations){
+        if(station->getLine()==line){
+            auto outgoingRailways = station->getOutgoingRailways();
+            for(Railway* railway:outgoingRailways){
+                severedRailways.emplace_back(railway->getSourceStationString(),railway->getDestinyStationString(),railway->getCapacity(),railway->getService());
+                station->removeRailway(railway);
+            }
         }
     }
     sourceStation = findStation(source);
     destinyStation = findStation(destiny);
-    return edmondsKarp(sourceStation, destinyStation);
+    double ans = edmondsKarp(sourceStation, destinyStation);
+    for(const auto& railway:severedRailways){
+        addBidirectionalRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
+    }
+    return ans;
 }

@@ -134,8 +134,7 @@ void Line_Reliability::reducedMaxTrainsAB(){
             std::getline(std::cin, destinyStation);
             std::cout << "|                                                           \n";
             std::string line = lineSelected(num);
-            Graph g = Graph(graph);
-            int maxTrains = g.getTrainsBetweenStationsReduced(sourceStation, destinyStation,line);
+            int maxTrains = graph.getTrainsBetweenStationsReduced(sourceStation, destinyStation,line);
             switch (maxTrains) {
                 case 0:
                     std::cout << "| Error: No railway between source and destiny stations     |\n";
