@@ -27,6 +27,7 @@ public:
     void visitStation(std::queue<Station*> &queue, Railway* railway, Station* station, double residualCapacity);
     bool findPath(Station* source, Station* destiny);
 
+
     /**
     * @brief Calculates the minimum residual capacity along the path from source to destiny station.
     * @param source Pointer to the source station.
@@ -95,6 +96,14 @@ public:
     * @note Time complexity: O(|V|) for a graph with |V| vertices.
     */
     void printPath(Station* orig, Station* dest);
+    /**
+    *
+    * @param source A reference to a string representing the name of the source station.
+    * @param destiny A reference to a string representing the name of the destiny station.
+    * @param line A reference to a string representing the line on which the stations reside.
+    * @return A double representing the maximum number of trains that can be sent from the source to the destiny station.
+    * @note Time complexity: O(|V|^2 * |E|) for a graph with |V| vertices and |E| edges, assuming the Edmonds-Karp algorithm is used to compute the maximum flow.
+    */
     double getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line);
     std::vector<std::pair<std::pair<std::string, double>,double>> stationSegmentFailureImpact(const std::vector<Railway*>& segmentsImpacted);
 
