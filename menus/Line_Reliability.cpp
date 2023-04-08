@@ -65,11 +65,12 @@ void Line_Reliability::help() {
     std::cout << "| How each option works                                      |\n";
     std::cout << "|                                                            |\n";
     std::cout << "| Maximum Number of Trains between A a B, taking into        |\n";
-    std::cout << "|   account reduced connectivity: Given two train stations,  |\n";
-    std::cout << "|   this option will return the maximum number of trains     |\n";
-    std::cout << "|   that can travel between them at the same time, taking    |\n";
-    std::cout << "|   in account a reduced connectivity version of the         |\n";
-    std::cout << "|   network.                                                 |\n";
+    std::cout << "|   account reduced connectivity: Given two train stations   |\n";
+    std::cout << "|   from the same line, this option will return the maximum  |\n";
+    std::cout << "|   number of trains that can travel between them at the     |\n";
+    std::cout << "|   same time, taking in account a reduced connectivity      |\n";
+    std::cout << "|   version of the network (only stations from the same      |\n";
+    std::cout << "|   line of A and B are present!)                            |\n";
     std::cout << "|                                                            |\n";
     std::cout << "| Stations more affected by segment failure: Given a         |\n";
     std::cout << "|   segment of the line, this option will return the         |\n";
@@ -153,15 +154,16 @@ void Line_Reliability::reducedMaxTrainsAB(){
                     std::cout << "|                                                           |\n";
                     break;
                 case -4:
-                    std::cout << "| Error: Source and destiny stations belong to line chosen  |\n";
+                    std::cout << "| Error: Source and destiny stations don't belong to the    |\n";
+                    std::cout << "| line chosen                                               |\n";
                     std::cout << "|                                                           |\n";
                     break;
                 case -5:
-                    std::cout << "| Error: Source station belongs to line chosen              |\n";
+                    std::cout << "| Error: Source station doesn't belong to the line chosen   |\n";
                     std::cout << "|                                                           |\n";
                     break;
                 case -6:
-                    std::cout << "| Error: Destiny station belongs to line chosen             |\n";
+                    std::cout << "| Error: Destiny station doesn't belong to the line chosen  |\n";
                     std::cout << "|                                                           |\n";
                     break;
                 default:

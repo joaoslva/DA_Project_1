@@ -473,18 +473,18 @@ double Graph::getTrainsBetweenStationsReduced(const std::string &source, const s
     if(sourceStation == destinyStation){
         return -3;
     }
-    if(sourceStation->getLine()==line && destinyStation->getLine()==line){
+    if(sourceStation->getLine()!=line && destinyStation->getLine()!=line){
         return -4;
     }
-    if(sourceStation->getLine()==line){
+    if(sourceStation->getLine()!=line){
         return -5;
     }
-    if(destinyStation->getLine()==line){
+    if(destinyStation->getLine()!=line){
         return -6;
     }
     std::vector<Railway> severedRailways;
     for(auto station:stations){
-        if(station->getLine()==line){
+        if(station->getLine()!=line){
             auto outgoingRailways = station->getOutgoingRailways();
             for(Railway* railway:outgoingRailways){
                 severedRailways.emplace_back(railway->getSourceStationString(),railway->getDestinyStationString(),railway->getCapacity(),railway->getService());
