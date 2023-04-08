@@ -272,13 +272,14 @@ void Line_Reliability::stationSegmentFailure(){
                     while(true){
                         std::cout << "| Do you want to continue? Press Y (yes) or N (no)          |\n";
                         std::cout << "|                                                           |\n";
+                        std::cout << "| Enter here: ";
                         std::getline(std::cin, op);
                         if(op == "Y" || op == "yes"){
-                            running = false;
+                            running = true;
                             break;
                         }
                         else if (op == "N" || op == "no"){
-                            running = true;
+                            running = false;
                             break;
                         }
                         else{
@@ -311,6 +312,40 @@ void Line_Reliability::stationSegmentFailure(){
                         railways.push_back(rail);
                     }
                 }
+            }
+        }
+        std::string k;
+        int kNum;
+        while(true){
+            try{
+                std::cout << "| Enter the number of station you want to see: ";
+                std::getline(std::cin, k);
+                std::cout << "|                                                           |\n";
+                kNum = std::stoi(k);
+                if(kNum<1){
+                    std::cout << "| Number MUST be positive, please try again                 |\n";
+                    std::cout << "|                                                           |\n";
+                    continue;
+                }
+                break;
+            } catch (const std::invalid_argument& e) {
+                std::cout << "| Not a valid input, please try again                       |\n";
+                std::cout << "|                                                           |\n";
+            }
+        }
+
+        auto res = graph.stationSegmentFailureImpact(railways);
+        if(kNum==1){
+            std::cout << "| The top " << kNum << " station more affected by          |\n";
+            std::cout << "| the segments failure is:                        |\n";
+        }
+        else{
+            std::cout << "| The top " << kNum << " stations more affected by         |\n";
+            std::cout << "| the segments failure are:                       |\n";
+        }
+        if(kNum<res.size()){
+            for(int i=0; i<kNum;i++){
+                std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first << "(" << res[i].first.second << "->" << res[i].second << ")\n";
             }
         }
 
