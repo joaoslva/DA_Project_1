@@ -339,10 +339,17 @@ double Graph::optimalCostTrains(const std::string& source, const std::string& de
                    const_cast<std::string &>(destinyStation->getName()))){
         printPath(sourceStation, destinyStation);
         minCost = destinyStation->getDistance()*destinyStation->getBottleneck();
-        std::cout << ".\n The cost of this path is " << destinyStation->getDistance() << "€. ";
-        std::cout << "It can support " << destinyStation->getBottleneck() << " trains.\n";
-        std::cout << "Total: " << destinyStation->getDistance()*destinyStation->getBottleneck() << "€. \n\n";
-
+        std::cout << "|                                                           |\n";
+        std::cout << "| The operation cost of this path is " << destinyStation->getDistance() << "€.";
+        for(int i = 0; i < 59 - 38 - std::to_string(destinyStation->getDistance()).size(); i++){
+            std::cout << " ";
+        }
+        std::cout << "|\n";
+        std::cout << "| It can support " << destinyStation->getBottleneck() << " trains.";
+        for(int i = 0; i < 59 - 24 - std::to_string(destinyStation->getBottleneck()).size(); i++){
+            std::cout << " ";
+        }
+        std::cout << "|\n";
     }
     else return 0;
 
@@ -399,66 +406,43 @@ bool Graph::dijkstra(std::string& source, std::string& dest) {
 
 
 void Graph::printPath(Station* orig, Station* dest){
-    /*
     auto itr = dest;
-    std::stack<std::string> stations;
-    auto it = dest;
-    for(; it != orig;){
-        stations.push(it->getName());
-        it = it->getPath()->getSourceStationPointer();
+    std::vector<std::string> reversePath;
+    while(itr != orig){
+        reversePath.push_back(itr->getName());
+        itr = itr->getPath()->getSourceStationPointer();
     }
-    stations.push(it->getName());
-    std::string output;
-    std::cout << "| Here's the path from " << orig->getName() << " to " << dest->getName() << ":";
-    for(int i = 0; i < 59 - orig->getName().length() - dest->getName().length() - 27; i++) std::cout << " ";
+    reversePath.push_back(itr->getName());
+
+    std::cout << "| Here's the optimal path from " << orig->getName() << " to " << dest->getName() << ":";
+    for(int i = 0; i < 59 - orig->getName().length() - dest->getName().length() - 35; i++){
+        std::cout << " ";
+    }
     std::cout << "|\n";
-    std::cout << "Here\n";
+    std::cout << "|                                                           |\n";
+    std::cout << "| ";
+    int charCount = 1;
 
-    while (stations.size() > 1){
-        if(output.length() + stations.top().length() + 5 < 57){
-            output += stations.top() + " -> ";
-            stations.pop();
+    for(auto itr2 = reversePath.rbegin(); itr2 != reversePath.rend() - 1; itr2++){
+        charCount += (*itr2).length() + 4;
+        if(charCount > 57){
+            std::cout << "\n| ";
+            charCount = (*itr2).length() + 5;
         }
+        std::cout << *itr2 << " -> ";
+    }
 
-        else{
-            std::cout << "| " << output;
-            for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
-            std::cout << "|";
+    if(charCount + orig->getName().length() > 55){
+        for(int i = 0; i < 59 - charCount; i++){
+            std::cout << " ";
         }
+        std::cout << "|\n| ";
     }
-
-    if(output.length() + stations.top().length() + 5 < 57){
-        output += stations.top() + " -> ";
-        stations.pop();
-        std::cout << output;
-        for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
-        std::cout << "|\n";
+    std::cout << reversePath.front();
+    for(int i = 0; i < 59 - charCount - reversePath.front().length(); i++){
+        std::cout << " ";
     }
-
-    else{
-        std::cout << "| " << output;
-        for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
-        std::cout << "| " << stations.top();
-        stations.pop();
-        for(int i = 0; i < 59 - output.length() - 1; i++) std::cout << " ";
-        std::cout << "|\n";
-    }
-     */
-
-
-    auto it = dest;
-    if(it != orig){
-        printPath(orig, it->getPath()->getSourceStationPointer());
-    }
-
-    if(it == orig){
-        std::cout << it->getName();
-    }
-
-    else {
-        std::cout << "->" << it->getName();
-    }
-
+    std::cout << "|\n";
 }
 
 double Graph::getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line) {

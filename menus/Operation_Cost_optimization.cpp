@@ -125,8 +125,12 @@ void Operation_Cost_optimization::optimalCost(){
             checkStay(option1Stay, "Operation Cost Optimization");
         }
         else {
-            std::cout << "| Minimum price for max trains between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "\n";
-            std::cout << "|                                                           \n";
+            std::cout << "| Total cost between " << sourceStation << " and " << destinyStation << ": " << maxTrains << "€";
+            for(int i = 0; i < 59 - sourceStation.length() - destinyStation.length() - 28 - (maxTrains > 10 ? (maxTrains > 100 ? 3 : 2) : 1); i++){
+                std::cout << " ";
+            }
+            std::cout << "|\n";
+            std::cout << "|                                                           |\n";
             checkStay(option1Stay, "Operation Cost Optimization");
         }
     }
