@@ -31,11 +31,7 @@ bool Line_Reliability::start() {
         }
 
         else if(lineReliabilityChoice == "2"){
-            bool option2Stay = true;
-            while(option2Stay){
-                std::cout << "Option 2 selected \n";
-                checkStay(option2Stay, "Line Reliability");
-            }
+            stationSegmentFailure();
         }
 
         else if(lineReliabilityChoice == "3")
@@ -106,7 +102,7 @@ void Line_Reliability::reducedMaxTrainsAB(){
         std::cout << "| Please, enter the number corresponding to the line you    |\n";
         std::cout << "| want to assess it's reliability                           |\n";
         std::cout << "|                                                           |\n";
-        std::cout << "| (type l to see the list)                                  |\n";
+        std::cout << "| (type l to see the list of available lines)              |\n";
         std::cout << "|                                                           |\n";
         std::cout << "| Enter here: ";
         std::getline(std::cin, option);
@@ -226,4 +222,99 @@ std::string Line_Reliability::lineSelected(int num){
                                       "Ramal de Alfarelos", "Linha de Sines", "Linha de Évora", "Ramal Neves Corvo", "Rede Espanhola",
                                       "Ramal da Lousã", "Concordância São Gemil", "Ramal Petrogal - Asfaltos"};
     return lines[num-1];
+}
+
+void Line_Reliability::stationSegmentFailure(){
+    bool option2Stay = true, running = true;
+    std::vector<Railway *> railways;
+    std::string option, sourceStation, destinyStation;
+    std::cout << "| Welcome to Stations more affected by segment failure      |\n";
+    std::cout << "|                                                           |\n";
+    while(option2Stay){
+        std::cout << "| Options for assessment of segment failure:                |\n";
+        std::cout << "| -> Type the number of one of the lines                    |\n";
+        std::cout << "| (type l to see the list of available lines)               |\n";
+        std::cout << "|                                                           |\n";
+        std::cout << "| -> Choose a customize set of segments (type c)            |\n";
+        std::cout << "|                                                           |\n";
+        std::cout << "| Enter here: ";
+        std::getline(std::cin, option);
+        std::cout << "|                                                           |\n";
+        if(option == "l"){
+            listTrainLines();
+            continue;
+        }
+        else if(option == "c"){
+            while (running){
+                bool found = false;
+                std::cout << "| Enter the source station: ";
+                std::getline(std::cin, sourceStation);
+                std::cout << "| Enter the destiny station: ";
+                std::getline(std::cin, destinyStation);
+                auto s = graph.findStation(sourceStation);
+                auto d = graph.findStation(destinyStation);
+                for(auto railway: s->getOutgoingRailways()){
+                    if (railway->getDestinyStationString()==d->getName()){
+                        railways.push_back(railway);
+                        found= true;
+                    }
+                }
+                if(!found){
+                    std::cout << "| No connection between source and destiny stations         |\n";
+                    std::cout << "|                                                           |\n";
+                }
+                else{
+                    std::cout << "| Railway found! Added successfully to vector               |\n";
+                    std::cout << "|                                                           |\n";
+                }
+                if (!railways.empty()){
+                    std::string op;
+                    while(true){
+                        std::cout << "| Do you want to continue? Press Y (yes) or N (no)          |\n";
+                        std::cout << "|                                                           |\n";
+                        std::getline(std::cin, op);
+                        if(op == "Y" || op == "yes"){
+                            running = false;
+                            break;
+                        }
+                        else if (op == "N" || op == "no"){
+                            running = true;
+                            break;
+                        }
+                        else{
+                            std::cout << "| Error: Invalid input. Read the instructions carefully     |\n";
+                            std::cout << "|                                                           |\n";
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            int num;
+            try{
+                num = std::stoi(option);
+            } catch (const std::invalid_argument& e) {
+                std::cout << "| Not a valid input, please try again                       |\n";
+                std::cout << "|                                                           |\n";
+                continue;
+            }
+            if (num<1 || num>27){
+                std::cout << "| The number must be a digit between 1 and 27               |\n";
+                std::cout << "|                                                           |\n";
+                continue;
+            }
+            std::cout << "|                                                           \n";
+            std::string line = lineSelected(num);
+            for(auto station:graph.getStations()){
+                if(station->getLine()==line){
+                    for(auto rail:station->getOutgoingRailways()){
+                        railways.push_back(rail);
+                    }
+                }
+            }
+        }
+
+        railways.clear();
+        checkStay(option2Stay, "Line Reliability");
+    }
 }
