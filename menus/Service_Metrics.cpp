@@ -147,10 +147,10 @@ void Service_Metrics::maxTrainsAB() {
 
         else{
             std::cout << "| Itinerary: " << sourceStation << " -> " << destinyStation;
-            for(int i = 0; i < 59 - sourceStation.size() - destinyStation.size() - 16; i++) std::cout << " ";
+            for(int i = 0; i < 59 - sourceStation.length() - destinyStation.length() - 16; i++) std::cout << " ";
             std::cout << "|\n";
             std::cout << "| Maximum number of trains: " << maxTrains;
-            for(int i = 0; i < 59 - maxTrains - 26; i++) std::cout << " ";
+            for(int i = 0; i < 59 - (maxTrains > 10 ? 2 : 1) - 27; i++) std::cout << " ";
             std::cout << "|\n";
             std::cout << "|                                                           |\n";
         }
