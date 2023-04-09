@@ -480,7 +480,7 @@ double Graph::getTrainsBetweenStationsReduced(const std::string &source, const s
     destinyStation = findStation(destiny);
     double ans = edmondsKarp(sourceStation, destinyStation);
     for(const auto& railway:severedRailways){
-        addBidirectionalRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
+        addRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
     }
     return ans;
 }
