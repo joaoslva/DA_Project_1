@@ -26,7 +26,7 @@ bool Graph::addBidirectionalRailway(const std::string& sourceStation, const std:
         return false;
     }
     auto railway1 = source->addRailway(destiny, sourceStation, destinyStation, railway.getCapacity(), railway.getService());
-    auto railway2 = destiny->addRailway(source, sourceStation, destinyStation, railway.getCapacity(), railway.getService());
+    auto railway2 = destiny->addRailway(source, destinyStation, sourceStation, railway.getCapacity(), railway.getService());
     railway1->setReverseRailway(railway2);
     railway2->setReverseRailway(railway1);
     return true;
@@ -500,6 +500,16 @@ std::vector<std::pair<std::pair<std::string, double>,double>> Graph::stationSegm
         restoreRailways.emplace_back(railway->getSourceStationString(),railway->getDestinyStationString(),railway->getCapacity(),railway->getService());
         sourceStation->removeRailway(railway);
     }
+    for(auto station: stations){
+        if(station->getName()=="Cruz Quebrada" || station->getName() == "Caxias"){
+            std::cout << "|--------------------\n";
+            std::cout << "Station name: " << station->getName() << std::endl;
+            std::cout << "Station township: " << station->getTownship() << std::endl;
+            for(auto railway: station->getOutgoingRailways()){
+                std::cout << "  Destination: " << railway->getDestinyStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
+            }
+        }
+    }
     //Calculate new global flow for each station
     std::map<std::pair<std::string,double>,double> changedFlow;
     for(std::pair<std::string,double> p1:normalFlow){
@@ -517,6 +527,16 @@ std::vector<std::pair<std::pair<std::string, double>,double>> Graph::stationSegm
     //Restore severed connection
     for(auto railway:restoreRailways){
         addBidirectionalRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
+    }
+    for(auto station: stations){
+        if(station->getName()=="Cruz Quebrada" || station->getName() == "Caxias"){
+            std::cout << "|--------------------\n";
+            std::cout << "Station name: " << station->getName() << std::endl;
+            std::cout << "Station township: " << station->getTownship() << std::endl;
+            for(auto railway: station->getOutgoingRailways()){
+                std::cout << "  Destination: " << railway->getDestinyStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
+            }
+        }
     }
     return ans;
 }

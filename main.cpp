@@ -45,16 +45,18 @@ int main() {
 
     if (errorCheck(&graph, &directedGraph, stations, railways)) return 1;
     //----------------------------------------------------
-    /*
+
     for(auto station: graph.getStations()){
-        std::cout << "|--------------------\n";
-        std::cout << "Station name: " << station->getName() << std::endl;
-        std::cout << "Station township: " << station->getTownship() << std::endl;
-        for(auto railway: station->getOutgoingRailways()){
-            std::cout << "  Destination: " << railway->getDestinyStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
+        if(station->getName()=="Cruz Quebrada" || station->getName() == "Caxias"){
+            std::cout << "|--------------------\n";
+            std::cout << "Station name: " << station->getName() << std::endl;
+            std::cout << "Station township: " << station->getTownship() << std::endl;
+            for(auto railway: station->getOutgoingRailways()){
+                std::cout << "  Destination: " << railway->getDestinyStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
+            }
         }
     }
-
+    /*
     std::cout << "Stations without outgoing railways:" << std::endl;
     for(auto station: graph.getStations()) {
         if (station->getOutgoingRailways().empty()) {
