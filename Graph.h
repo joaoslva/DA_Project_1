@@ -104,7 +104,7 @@ public:
     * @return A double representing the maximum number of trains that can be sent from the source to the destiny station.
     * @note Time complexity: O(|V|^2 * |E|) for a graph with |V| vertices and |E| edges, assuming the Edmonds-Karp algorithm is used to compute the maximum flow.
     */
-    double getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line);
+    double getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line, const std::vector<Railway*>& segmentsImpacted);
     std::vector<std::pair<std::pair<std::string, double>,double>> stationSegmentFailureImpact(const std::vector<Railway*>& segmentsImpacted);
 
 private:

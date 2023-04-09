@@ -26,7 +26,7 @@ bool Graph::addBidirectionalRailway(const std::string& sourceStation, const std:
         return false;
     }
     auto railway1 = source->addRailway(destiny, sourceStation, destinyStation, railway.getCapacity(), railway.getService());
-    auto railway2 = destiny->addRailway(source, sourceStation, destinyStation, railway.getCapacity(), railway.getService());
+    auto railway2 = destiny->addRailway(source, destinyStation, sourceStation, railway.getCapacity(), railway.getService());
     railway1->setReverseRailway(railway2);
     railway2->setReverseRailway(railway1);
     return true;
@@ -445,7 +445,7 @@ void Graph::printPath(Station* orig, Station* dest){
     std::cout << "|\n";
 }
 
-double Graph::getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line) {
+double Graph::getTrainsBetweenStationsReduced(const std::string &source, const std::string &destiny, const std::string &line, const std::vector<Railway*>& segmentsImpacted) {
     auto sourceStation = findStation(source);
     auto destinyStation = findStation(destiny);
     if(sourceStation == nullptr){
@@ -466,20 +466,20 @@ double Graph::getTrainsBetweenStationsReduced(const std::string &source, const s
     if(destinyStation->getLine()!=line){
         return -6;
     }
+
     std::vector<Railway> severedRailways;
-    for(auto station:stations){
-        if(station->getLine()!=line){
-            auto outgoingRailways = station->getOutgoingRailways();
-            for(Railway* railway:outgoingRailways){
-                severedRailways.emplace_back(railway->getSourceStationString(),railway->getDestinyStationString(),railway->getCapacity(),railway->getService());
-                station->removeRailway(railway);
-            }
-        }
+    for (auto railway: segmentsImpacted){
+        auto srcStation = railway->getSourceStationPointer();
+        auto destStation = railway->getDestinyStationPointer();
+        Railway* rev = railway->getReverseRailway();
+        severedRailways.emplace_back(railway->getSourceStationString(),railway->getDestinyStationString(),railway->getCapacity(),railway->getService());
+        destStation->removeRailway(rev);
+        srcStation->removeRailway(railway);
     }
     sourceStation = findStation(source);
     destinyStation = findStation(destiny);
     double ans = edmondsKarp(sourceStation, destinyStation);
-    for(const auto& railway:severedRailways){
+    for(auto railway:severedRailways){
         addBidirectionalRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
     }
     return ans;
@@ -493,18 +493,24 @@ std::vector<std::pair<std::pair<std::string, double>,double>> Graph::stationSegm
         std::string name = stations[i]->getName();
         normalFlow[name] = arrivingTrains(name);
     }
+
     //Sever connections between stations
     std::vector<Railway> restoreRailways;
     for (auto railway: segmentsImpacted){
         auto sourceStation = railway->getSourceStationPointer();
+        auto destStation = railway->getDestinyStationPointer();
+        Railway* rev = railway->getReverseRailway();
         restoreRailways.emplace_back(railway->getSourceStationString(),railway->getDestinyStationString(),railway->getCapacity(),railway->getService());
+        destStation->removeRailway(rev);
         sourceStation->removeRailway(railway);
     }
+
     //Calculate new global flow for each station
     std::map<std::pair<std::string,double>,double> changedFlow;
     for(std::pair<std::string,double> p1:normalFlow){
         changedFlow[p1] = arrivingTrains(p1.first);
     }
+
     //Push results to a vector and sort
     std::vector<std::pair<std::pair<std::string, double>,double>> ans;
     ans.reserve(changedFlow.size());
@@ -514,6 +520,7 @@ std::vector<std::pair<std::pair<std::string, double>,double>> Graph::stationSegm
     std::sort(ans.begin(),ans.end(), [](const std::pair<std::pair<std::string, double>,double>& p1, const std::pair<std::pair<std::string, double>,double>& p2){
         return (p1.first.second-p1.second) > (p2.first.second-p2.second);
     });
+
     //Restore severed connection
     for(auto railway:restoreRailways){
         addBidirectionalRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);

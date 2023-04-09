@@ -139,7 +139,7 @@ public:
 
     //Setters
     void setFlow(double flow);
-    void setReverseRailway(Railway* reverseRailway);
+    void setReverseRailway(Railway* railway);
 
 private:
     std::string sourceStationString;

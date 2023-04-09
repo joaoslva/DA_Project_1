@@ -78,11 +78,11 @@ int Station::getId() const {
 }
 
 std::vector<Railway *> Station::getOutgoingRailways() const {
-    return outgoingRailways;
+    return this->outgoingRailways;
 }
 
 std::vector<Railway *> Station::getIncomingRailways() const {
-    return incomingRailways;
+    return this->incomingRailways;
 }
 
 bool Station::isVisited() const {
@@ -185,11 +185,11 @@ const std::string &Railway::getDestinyStationString() const {
 }
 
 Railway* Railway::getReverseRailway() const {
-    return reverseRailway;
+    return this->reverseRailway;
 }
 
-void Railway::setReverseRailway(Railway *reverseRailway) {
-    reverseRailway = reverseRailway;
+void Railway::setReverseRailway(Railway *railway) {
+    this->reverseRailway = railway;
 }
 
 void Station::setBottleneck(int bottleNeck){
