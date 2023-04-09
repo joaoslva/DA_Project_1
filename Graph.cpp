@@ -526,7 +526,7 @@ std::vector<std::pair<std::pair<std::string, double>,double>> Graph::stationSegm
     });
     //Restore severed connection
     for(auto railway:restoreRailways){
-        addBidirectionalRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
+        addRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
     }
     for(auto station: stations){
         if(station->getName()=="Cruz Quebrada" || station->getName() == "Caxias"){
