@@ -54,6 +54,9 @@ int main() {
             for(auto railway: station->getOutgoingRailways()){
                 std::cout << "  Destination: " << railway->getDestinyStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
             }
+            for(auto railway: station->getIncomingRailways()){
+                std::cout << "  Incoming from: " << railway->getSourceStationPointer()->getName() << ", Capacity: " << railway->getCapacity() << ", Service: " << railway->getService() << std::endl;
+            }
         }
     }
     /*

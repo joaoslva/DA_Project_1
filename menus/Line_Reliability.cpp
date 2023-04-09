@@ -94,6 +94,7 @@ void Line_Reliability::help() {
 
 void Line_Reliability::reducedMaxTrainsAB(){
     bool option1Stay = true;
+    std::vector<Railway *> railways;
     std::string option, sourceStation, destinyStation;
     std::cout << "| Welcome to Maximum Number of Trains between A a B, taking |\n";
     std::cout << "| into account reduced connectivity                         |\n";
@@ -131,7 +132,16 @@ void Line_Reliability::reducedMaxTrainsAB(){
             std::getline(std::cin, destinyStation);
             std::cout << "|                                                           \n";
             std::string line = lineSelected(num);
-            int maxTrains = graph.getTrainsBetweenStationsReduced(sourceStation, destinyStation,line);
+            for(auto station:graph.getStations()){
+                if(station->getLine()!=line){
+                    for(auto rail:station->getOutgoingRailways()){
+                        if(std::find(railways.begin(),railways.end(),rail) == railways.end() &&
+                           std::find(railways.begin(),railways.end(),rail->getReverseRailway()) == railways.end())
+                            railways.push_back(rail);
+                    }
+                }
+            }
+            int maxTrains = graph.getTrainsBetweenStationsReduced(sourceStation, destinyStation,line,railways);
             switch (maxTrains) {
                 case 0:
                     std::cout << "| Error: No railway between source and destiny stations     |\n";
@@ -173,6 +183,7 @@ void Line_Reliability::reducedMaxTrainsAB(){
                     break;
 
             }
+            railways.clear();
             checkStay(option1Stay, "Line Reliability");
         }
     }
@@ -317,7 +328,9 @@ void Line_Reliability::stationSegmentFailure(){
             for(auto station:graph.getStations()){
                 if(station->getLine()==line){
                     for(auto rail:station->getOutgoingRailways()){
-                        railways.push_back(rail);
+                        if(std::find(railways.begin(),railways.end(),rail) == railways.end() &&
+                        std::find(railways.begin(),railways.end(),rail->getReverseRailway()) == railways.end())
+                            railways.push_back(rail);
                     }
                 }
             }
