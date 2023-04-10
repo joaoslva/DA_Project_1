@@ -103,7 +103,7 @@ void Line_Reliability::reducedMaxTrainsAB(){
         std::cout << "| Please, enter the number corresponding to the line you    |\n";
         std::cout << "| want to assess it's reliability                           |\n";
         std::cout << "|                                                           |\n";
-        std::cout << "| (type l to see the list of available lines)              |\n";
+        std::cout << "| (type l to see the list of available lines)               |\n";
         std::cout << "|                                                           |\n";
         std::cout << "| Enter here: ";
         std::getline(std::cin, option);
@@ -225,7 +225,6 @@ void Line_Reliability::listTrainLines(){
     std::cout << "| 27 - Ramal Petrogal - Asfaltos                            |\n";
     std::cout << "|                                                           |\n";
     std::cout << "|-----------------------------------------------------------|\n";
-    std::cout << "|                                                           |\n";
 }
 
 std::string Line_Reliability::lineSelected(int num){
@@ -246,10 +245,12 @@ void Line_Reliability::stationSegmentFailure(){
     std::cout << "|                                                           |\n";
     while(option2Stay){
         std::cout << "| Options for assessment of segment failure:                |\n";
-        std::cout << "| -> Type the number of one of the lines                    |\n";
+        std::cout << "|                                                           |\n";
+        std::cout << "| -> Type the number of one of the lines network            |\n";
         std::cout << "| (type l to see the list of available lines)               |\n";
         std::cout << "|                                                           |\n";
-        std::cout << "| -> Choose a customize set of segments (type c)            |\n";
+        std::cout << "| -> Choose a custom set of segments, by giving segments    |\n";
+        std::cout << "| of your choosing (type c)                                 |\n";
         std::cout << "|                                                           |\n";
         std::cout << "| Enter here: ";
         std::getline(std::cin, option);
@@ -268,16 +269,19 @@ void Line_Reliability::stationSegmentFailure(){
                 auto s = graph.findStation(sourceStation);
                 auto d = graph.findStation(destinyStation);
                 if(s== nullptr && d == nullptr){
+                    std::cout << "|                                                           |\n";
                     std::cout << "| Source and destiny don't not exist                        |\n";
                     std::cout << "|                                                           |\n";
                     continue;
                 }
                 if(s== nullptr){
+                    std::cout << "|                                                           |\n";
                     std::cout << "| Source does not exist                                     |\n";
                     std::cout << "|                                                           |\n";
                     continue;
                 }
                 if(d == nullptr){
+                    std::cout << "|                                                           |\n";
                     std::cout << "| Destiny does not exist                                    |\n";
                     std::cout << "|                                                           |\n";
                     continue;
@@ -289,11 +293,13 @@ void Line_Reliability::stationSegmentFailure(){
                     }
                 }
                 if(!found){
+                    std::cout << "|                                                           |\n";
                     std::cout << "| No connection between source and destiny stations         |\n";
                     std::cout << "|                                                           |\n";
                 }
                 else{
-                    std::cout << "| Railway found! Added successfully to vector               |\n";
+                    std::cout << "|                                                           |\n";
+                    std::cout << "| Railway found! Successfully added to vector               |\n";
                     std::cout << "|                                                           |\n";
                 }
                 if (!railways.empty()){
@@ -367,23 +373,33 @@ void Line_Reliability::stationSegmentFailure(){
 
         auto res = graph.stationSegmentFailureImpact(railways);
         if(kNum==1){
-            std::cout << "| The top " << kNum << " station more affected by          |\n";
-            std::cout << "| the segments failure is:                        |\n";
+            std::cout << "| The top " << kNum << " station most affected by                        |\n";
+            std::cout << "| the segments failure is:                                  |\n";
         }
         else{
-            std::cout << "| The top " << kNum << " stations more affected by         |\n";
-            std::cout << "| the segments failure are:                       |\n";
+            std::cout << "| The top " << kNum << " stations most affected by";
+            for(int i=0; i < 59 - (kNum >= 10 ? 2 : 1) - 35; i++) std::cout << " ";
+            std::cout << "|\n";
+            std::cout << "| the segments failure are:                                 |\n";
         }
 
         for(int i=0; i<res.size();i++){
             if(kNum<(i+1)) break;
-            std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first << "(" << res[i].first.second << "->" << res[i].second << ")\n";
+            //std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first << "(" << res[i].first.second << "->" << res[i].second << ")\n";
+            std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first;
+            for(int j=0; j < 59 - (i+1 >= 10 ? (i+1 >= 100 ? 3 : 2) : 1) - 14 - res[i].first.first.length(); j++) std::cout << " ";
+            std::cout << "|\n";
+            std::cout << "| Change of flow of trains: " << res[i].first.second << " -> " << res[i].second;
+            for(int j=0; j < 59 - 31 - (res[i].first.second >= 10 ? (res[i].first.second >= 100 ? 3 : 2) : 1) - (res[i].second >= 10 ? (res[i].second >= 100 ? 3 : 2) : 1); j++) std::cout << " ";
+            std::cout << "|\n";
         }
 
         if(kNum>res.size()){
-            std::cout << "| Only " << res.size() << " stations were affected by this change!         |\n";
+            std::cout << "| Only " << res.size() << " stations were affected by this change!";
+            for(int i=0; i < 59 - (res.size() >= 10 ? 2 : 1) - 45; i++) std::cout << " ";
+            std::cout << "|\n";
         }
-
+        std::cout << "|                                                           |\n";
         railways.clear();
         checkStay(option2Stay, "Line Reliability");
     }
