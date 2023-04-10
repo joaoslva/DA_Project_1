@@ -266,14 +266,21 @@ void Line_Reliability::stationSegmentFailure(){
                 std::cout << "| Enter the destiny station: ";
                 std::getline(std::cin, destinyStation);
                 auto s = graph.findStation(sourceStation);
+                auto d = graph.findStation(destinyStation);
+                if(s== nullptr && d == nullptr){
+                    std::cout << "| Source and destiny don't not exist                        |\n";
+                    std::cout << "|                                                           |\n";
+                    continue;
+                }
                 if(s== nullptr){
                     std::cout << "| Source does not exist                                     |\n";
                     std::cout << "|                                                           |\n";
+                    continue;
                 }
-                auto d = graph.findStation(destinyStation);
                 if(d == nullptr){
                     std::cout << "| Destiny does not exist                                    |\n";
                     std::cout << "|                                                           |\n";
+                    continue;
                 }
                 for(auto railway: s->getOutgoingRailways()){
                     if (railway->getDestinyStationString()==d->getName()){
