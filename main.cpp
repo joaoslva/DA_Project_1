@@ -17,13 +17,13 @@ int errorCheck(Graph* graph, std::vector<Station> stations, std::vector<Railway>
 
     for(const Station& station:stations){
         if(!graph->addStation(station)){
-            std::cout << "Error adding station " << station.getName() << std::endl;
+            continue;
         }
     }
 
     for(const Railway& railway:railways){
         if(!graph->addBidirectionalRailway(railway.getSourceStationString(), railway.getDestinyStationString(), railway)){
-            std::cout << "Error adding railway " << railway.getSourceStationString() << " -> " << railway.getDestinyStationString() << std::endl;
+            continue;
         }
     }
 
