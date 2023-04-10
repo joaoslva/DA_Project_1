@@ -173,8 +173,11 @@ void Line_Reliability::reducedMaxTrainsAB(){
                     std::cout << "|                                                           |\n";
                     break;
                 default:
-                    std::cout << "| Itinerary: " << sourceStation << " -> " << destinyStation;
-                    for(int i = 0; i < 59 - sourceStation.size() - destinyStation.size() - 16; i++) std::cout << " ";
+                    std::cout << "| Source Station: " << sourceStation;
+                    for(int i = 0; i < 59 - sourceStation.size() - 17; i++) std::cout << " ";
+                    std::cout << "|\n";
+                    std::cout << "| Destiny Station: " << destinyStation;
+                    for(int i = 0; i < 59 - destinyStation.size() - 18; i++) std::cout << " ";
                     std::cout << "|\n";
                     std::cout << "| Maximum number of trains: " << maxTrains;
                     for(int i = 0; i < 59 - maxTrains - 26; i++) std::cout << " ";

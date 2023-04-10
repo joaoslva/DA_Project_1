@@ -146,10 +146,12 @@ void Service_Metrics::maxTrainsAB() {
         }
 
         else{
-            std::cout << "| Itinerary: " << sourceStation << " -> " << destinyStation;
-            for(int i = 0; i < 59 - sourceStation.length() - destinyStation.length() - 16; i++) std::cout << " ";
+            std::cout << "| Source station: " << sourceStation;
+            for(int i = 0; i < 59 - sourceStation.length() - 17; i++) std::cout << " ";
             std::cout << "|\n";
-            std::cout << "| Maximum number of trains: " << maxTrains;
+            std::cout << "| Destiny station: " << destinyStation;
+            for(int i = 0; i < 59 - destinyStation.length() - 18; i++) std::cout << " ";
+            std::cout << "| Maximum number of trains between them: " << maxTrains;
             for(int i = 0; i < 59 - (maxTrains > 10 ? 2 : 1) - 27; i++) std::cout << " ";
             std::cout << "|\n";
             std::cout << "|                                                           |\n";
@@ -233,7 +235,7 @@ void Service_Metrics::upTheBudget() {
             std::cout << "| Function started. Please wait...                          |\n";
             std::vector<std::pair<std::string, double>> values;
             values = graph.largerBudgetsDistricts();
-
+            values.pop_back();
             std::map<std::string, double> valuesMap;
 
             int j = 0;
