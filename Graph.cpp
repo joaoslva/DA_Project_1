@@ -565,7 +565,8 @@ std::vector<std::pair<std::pair<std::string, double>,double>> Graph::stationSegm
     std::vector<std::pair<std::pair<std::string, double>,double>> ans;
     ans.reserve(changedFlow.size());
     for(auto ele:changedFlow){
-        ans.emplace_back(ele);
+        if(ele.first.second != ele.second)
+            ans.emplace_back(ele);
     }
     std::sort(ans.begin(),ans.end(), [](const std::pair<std::pair<std::string, double>,double>& p1, const std::pair<std::pair<std::string, double>,double>& p2){
         return (p1.first.second-p1.second) > (p2.first.second-p2.second);

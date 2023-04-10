@@ -367,10 +367,14 @@ void Line_Reliability::stationSegmentFailure(){
             std::cout << "| The top " << kNum << " stations more affected by         |\n";
             std::cout << "| the segments failure are:                       |\n";
         }
-        if(kNum<res.size()){
-            for(int i=0; i<kNum;i++){
-                std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first << "(" << res[i].first.second << "->" << res[i].second << ")\n";
-            }
+
+        for(int i=0; i<res.size();i++){
+            if(kNum<(i+1)) break;
+            std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first << "(" << res[i].first.second << "->" << res[i].second << ")\n";
+        }
+
+        if(kNum>res.size()){
+            std::cout << "| Only " << res.size() << " stations were affected by this change!         |\n";
         }
 
         railways.clear();
