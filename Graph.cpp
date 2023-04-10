@@ -376,8 +376,8 @@ double Graph::optimalCostTrains(const std::string& source, const std::string& de
         printPath(sourceStation, destinyStation);
         minCost = destinyStation->getDistance()*destinyStation->getBottleneck();
         std::cout << "|                                                           |\n";
-        std::cout << "| The operation cost of this path is " << destinyStation->getDistance() << "€.";
-        for(int i = 0; i < 59 - 38 - std::to_string(destinyStation->getDistance()).size(); i++){
+        std::cout << "| The optimal operation cost of this path is " << destinyStation->getDistance() << "€.";
+        for(int i = 0; i < 59 - 46 - std::to_string(destinyStation->getDistance()).size(); i++){
             std::cout << " ";
         }
         std::cout << "|\n";
@@ -450,30 +450,44 @@ void Graph::printPath(Station* orig, Station* dest){
     }
     reversePath.push_back(itr->getName());
 
-    std::cout << "| Here's the optimal path from " << orig->getName() << " to " << dest->getName() << ":";
-    for(int i = 0; i < 59 - orig->getName().length() - dest->getName().length() - 35; i++){
-        std::cout << " ";
+    std::cout << "| Optimal path from " << orig->getName() << " to ";
+    if((dest->getName().length() + orig->getName().length() + 23) >= 57){
+        for(int i = 0; i < 59 - orig->getName().length() - 23; i++){
+            std::cout << " ";
+        }
+        std::cout << "|\n";
+        std::cout << "| " << dest->getName();
+        for(int i = 0; i < 59 - dest->getName().length() - 1; i++){
+            std::cout << " ";
+        }
+        std::cout << "|\n";
     }
-    std::cout << "|\n";
+    else{
+        std::cout << dest->getName() << ":";
+        for(int i = 0; i < 59 - dest->getName().length() - orig->getName().length() - 24; i++){
+            std::cout << " ";
+        }
+        std::cout << "|\n";
+    }
     std::cout << "|                                                           |\n";
     std::cout << "| ";
+
     int charCount = 1;
 
     for(auto itr2 = reversePath.rbegin(); itr2 != reversePath.rend() - 1; itr2++){
         charCount += (*itr2).length() + 4;
-        if(charCount > 57){
+        if(charCount >= 57){
             std::cout << "\n| ";
             charCount = (*itr2).length() + 5;
         }
         std::cout << *itr2 << " -> ";
     }
 
-    if(charCount + orig->getName().length() > 55){
-        for(int i = 0; i < 59 - charCount; i++){
-            std::cout << " ";
-        }
-        std::cout << "|\n| ";
+    if(charCount + orig->getName().length() >= 55){
+        std::cout << "\n| ";
+        charCount = 1;
     }
+
     std::cout << reversePath.front();
     for(int i = 0; i < 59 - charCount - reversePath.front().length(); i++){
         std::cout << " ";

@@ -217,7 +217,7 @@ void Service_Metrics::upTheBudget() {
                         std::cout << "|                                                           |\n";
                         continue;
                     }
-                    else if(std::stoi(option1) > graph.getDistrictNumber()){
+                    else if(std::stoi(option1) > graph.getDistrictNumber() - 1){
                         std::cout << "| Input out of bounds, the maximum number of                |\n";
                         std::cout << "| districts is " << graph.getDistrictNumber() - 1;
                         for(int k = 0; k < 59 - (graph.getDistrictNumber() > 10 ? 2 : 1) - 14; k++) std::cout << " ";
@@ -242,7 +242,7 @@ void Service_Metrics::upTheBudget() {
             int j = 0;
 
             std::cout << "| The top " << option1 << " districts where the budget should be";
-            for(int i = 0; i < 59 - 45 - (i >= 10 ? (i >= 100 ? 3 : 2) : 1); i++) std::cout << " ";
+            for(int i = 0; i < 59 - 46 - (i >= 10 ? (i >= 100 ? 3 : 2) : 1); i++) std::cout << " ";
             std::cout << "|\n";
             std::cout << "| increased are:                                            |\n";
 
