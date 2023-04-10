@@ -202,27 +202,27 @@ void Service_Metrics::upTheBudget() {
         std::getline(std::cin, option);
         std::cout << "|                                                           |\n";
         if(option == "1"){
-            std::string i;
+            std::string option1;
             while(true){
                 try{
                     std::cout << "| Enter the number of districts you want to see: ";
-                    std::getline(std::cin, i);
+                    std::getline(std::cin, option1);
                     std::cout << "|                                                           |\n";
-                    if(std::stoi(i) < 1){
+                    if(std::stoi(option1) < 1){
                         std::cout << "| Input out of bounds, the number must be greater than 0    |\n";
                         std::cout << "| Please try again                                          |\n";
                         std::cout << "|                                                           |\n";
                         continue;
                     }
-                    else if(std::stoi(i) > graph.getDistrictNumber()){
+                    else if(std::stoi(option1) > graph.getDistrictNumber()){
                         std::cout << "| Input out of bounds, the maximum number of                |\n";
                         std::cout << "| districts is " << graph.getDistrictNumber();
-                        for(int i = 0; i < 59 - (graph.getDistrictNumber() > 10 ? 2 : 1) - 14; i++) std::cout << " ";
+                        for(int k = 0; k < 59 - (graph.getDistrictNumber() > 10 ? 2 : 1) - 14; k++) std::cout << " ";
                         std::cout << "|\n";
                         std::cout << "|                                                           |\n";
                         continue;
                     }
-                    std::stoi(i);
+                    std::stoi(option1);
                     break;
                 } catch (std::invalid_argument& e) {
                     std::cout << "| Not a valid input, please try again                       |\n";
@@ -238,36 +238,39 @@ void Service_Metrics::upTheBudget() {
 
             int j = 0;
 
-            std::cout << "| The top " << i << " districts where the budget should be";
+            std::cout << "| The top " << option1 << " districts where the budget should be";
             for(int i = 0; i < 59 - 45 - (i >= 10 ? (i >= 100 ? 3 : 2) : 1); i++) std::cout << " ";
             std::cout << "|\n";
             std::cout << "| increased are:                                            |\n";
 
             for(const auto& element : values){
-                std::cout << "| Nº " << ++j << ": " << element.first << ", since it has a total of " << element.second <<" trains flowing,";
-                for(int k = 0; k < 59 - element.first.size() - (element.second >= 10 ? (element.second >= 100 ? 3 : 2) : 1) - 50; k++) std::cout << " ";
+                std::cout << "| Nº " << ++j << ": " << element.first;
+                for(int k = 0; k < 59 - element.first.size() - 6 - (j >= 10 ? 2 : 1); k++) std::cout << " ";
+                std::cout << "|\n";
+                std::cout << "| It has a gross sum of " << element.second << " trains flowing,";
+                for(int k = 0; k < 59 - 39 - (element.second >= 10 ? (element.second >= 100 ? (element.second >= 1000 ? 4 : 3) : 2) : 1); k++) std::cout << " ";
                 std::cout << "|\n";
                 std::cout << "| considering the top capacity of all pairs of stations     |\n";
                 std::cout << "| in that district;                                         |\n";
-                if(j==std::stoi(i)) break;
+                if(j==std::stoi(option1)) break;
             }
 
             std::cout << "|                                                           |\n";
             checkStay(option3Stay, "Service Metrics");
         }
         else if(option == "2"){
-            std::string i;
+            std::string option2;
             while(true){
                 try{
                     std::cout << "| Enter the number of municipalities you want to see: ";
-                    std::getline(std::cin, i);
+                    std::getline(std::cin, option2);
                     std::cout << "|                                                           |\n";
-                    if(std::stoi(i) < 1){
+                    if(std::stoi(option2) < 1){
                         std::cout << "| Input out of bounds, the number must be greater than 0    |\n";
                         std::cout << "|                                                           |\n";
                         continue;
                     }
-                    else if(std::stoi(i) > graph.getMunicipalityNumber()){
+                    else if(std::stoi(option2) > graph.getMunicipalityNumber()){
                         std::cout << "| Input out of bounds, the maximum number of                |\n";
                         std::cout << "| municipalities is " << graph.getMunicipalityNumber();
                         for(int i = 0; i < 59 - (graph.getMunicipalityNumber() > 10 ? (graph.getMunicipalityNumber() > 100 ? 3 : 2) : 1) - 19; i++) std::cout << " ";
@@ -275,7 +278,7 @@ void Service_Metrics::upTheBudget() {
                         std::cout << "|                                                           |\n";
                         continue;
                     }
-                    std::stoi(i);
+                    std::stoi(option2);
                     break;
                 } catch (const std::invalid_argument& e) {
                     std::cout << "| Not a valid input, please try again                       |\n";
@@ -287,23 +290,23 @@ void Service_Metrics::upTheBudget() {
             std::vector<std::pair<std::pair<std::string, std::string>, double>> values;
             values = graph.largerBudgetsMunicipalities();
 
-            std::cout << "| The top " << i << " municipalities where the budget should";
+            std::cout << "| The top " << option2 << " municipalities where the budget should";
             for(int i = 0; i < 59 - 48 - (i >= 10 ? (i >= 100 ? 3 : 2) : 1); i++) std::cout << " ";
             std::cout << "|\n";
             std::cout << "| be increased are:                                         |\n";
 
             int j = 0;
-            for(auto element : values){
-                if(element.first.first != ""){
-                    std::cout << "| Nº " << ++j << ": " << element.first.second << ", in district " << element.first.first;
-                    for(int k = 0; k < 59 - element.first.first.length() - element.first.second.length() - 21; k++) std::cout << " ";
+            for(const auto& element : values){
+                if(!element.first.first.empty()){
+                    std::cout << "| Nº " << ++j << ": " << element.first.second << ", in " << element.first.first;
+                    for(int k = 0; k < 59 - element.first.first.length() - element.first.second.length()- (j >= 10 ? (j >= 100 ? 3 : 2) : 1) - 11; k++) std::cout << " ";
                     std::cout << "|\n";
-                    std::cout << "| since it has a total of " << element.second << " trains, considering";
-                    for(int k = 0; k < 59- 45 - (element.second >= 10 ? (element.second >= 100 ? 3 : 2) : 1); k++) std::cout << " ";
+                    std::cout << "| It has a total gross sum of " << element.second << " trains, considering";
+                    for(int k = 0; k < 59- 49 - (element.second >= 10 ? (element.second >= 100 ? 3 : 2) : 1); k++) std::cout << " ";
                     std::cout << "|\n";
                     std::cout << "| the top capacity of all pairs in the municipality         |\n";
                 }
-                if(j == std::stoi(i)){
+                if(j == std::stoi(option2)){
                     break;
                 }
             }
