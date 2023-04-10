@@ -217,7 +217,7 @@ void Service_Metrics::upTheBudget() {
             }
 
                 std::vector<std::pair<std::pair<std::string, std::string>, double>> values;
-                values = directedGraph.largerBudgets();
+                values = graph.largerBudgets();
                 std::map<std::string, double> valuesMap;
                 for(auto element : values){
                     valuesMap[element.first.first] += element.second;

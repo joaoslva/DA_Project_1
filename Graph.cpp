@@ -237,17 +237,16 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::large
 
     Railway stub = Railway("", "", std::numeric_limits<double>::infinity(), "");
     for(auto station : stations){
-        if(station->getIncomingRailways().empty() && !station->getOutgoingRailways().empty()){
+        if(station->getIncomingRailways().size() == 1){
             addRailway("SuperSource", station->getName(), stub);
         }
     }
 
     for(auto station : stations){
-        if(station->getOutgoingRailways().empty() && !station->getIncomingRailways().empty()){
+        if(station->getOutgoingRailways().size() == 1){
             addRailway(station->getName(), "SuperSink", stub);
         }
     }
-
 
     auto superSourcePointer = findStation(superSource.getName());
     auto superSinkPointer = findStation(superSink.getName());
