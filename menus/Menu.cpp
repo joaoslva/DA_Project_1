@@ -7,7 +7,7 @@
 #include "Operation_Cost_optimization.h"
 #include "Line_Reliability.h"
 
-Menu::Menu(const Graph &graph, const Graph &directedGraph): graph(graph), directedGraph(directedGraph) {}
+Menu::Menu(const Graph &graph): graph(graph) {}
 
 void Menu::start(){
     bool running = true;
@@ -38,16 +38,16 @@ void Menu::start(){
         std::cout << "|                                                           |\n";
 
         if(choice == "1") {
-            Service_Metrics serviceMetrics = Service_Metrics(graph, directedGraph);
+            Service_Metrics serviceMetrics = Service_Metrics(graph);
             running = serviceMetrics.start();
         }
         else if(choice == "2"){
-            Operation_Cost_optimization serviceMetrics = Operation_Cost_optimization(graph, directedGraph);
+            Operation_Cost_optimization serviceMetrics = Operation_Cost_optimization(graph);
             running = serviceMetrics.start();
         }
 
         else if(choice == "3"){
-            Line_Reliability lineReliability = Line_Reliability(graph, directedGraph);
+            Line_Reliability lineReliability = Line_Reliability(graph);
             running = lineReliability.start();
         }
 

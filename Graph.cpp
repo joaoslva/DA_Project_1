@@ -223,58 +223,47 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::pairs
     return returnPairs;
 }
 
-std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::largerBudgets() {
 
-    // Create the super source and super sink stations
-    Station superSource = Station(-1, "SuperSource", "", "", "", "");
-    Station superSink = Station(-2, "SuperSink", "", "", "", "");
-
-    // Add the super source and super sink stations to the graph
-    if (!addStation(superSource) || !addStation(superSink)) {
-        std::cout << "Error adding super source or super sink" << std::endl;
-        return {};
-    }
-
-    Railway stub = Railway("", "", std::numeric_limits<double>::infinity(), "");
-    for(auto station : stations){
-        if(station->getIncomingRailways().size() == 1){
-            addRailway("SuperSource", station->getName(), stub);
-        }
-    }
-
-    for(auto station : stations){
-        if(station->getOutgoingRailways().size() == 1){
-            addRailway(station->getName(), "SuperSink", stub);
-        }
-    }
-
-    auto superSourcePointer = findStation(superSource.getName());
-    auto superSinkPointer = findStation(superSink.getName());
-
-    edmondsKarp(superSourcePointer, superSinkPointer);
-
-    std::map<std::pair<std::string, std::string>, double> pairBudgets;
-    std::vector<std::pair<std::pair<std::string, std::string>, double>> returnPairs;
-
-    for(auto station : stations){
-        for(auto railway : station->getOutgoingRailways()){
-            if(railway->getFlow() > 0){
-                pairBudgets[std::make_pair(station->getDistrict(), station->getTownship())] += railway->getFlow();
+std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::largerBudgetsMunicipalities() {
+    std::map<std::pair<std::string, std::string>, double> vals;
+    for(auto it = stations.begin(); it != stations.end(); it++){
+        for(auto jt = it; jt != stations.end(); jt++){
+            if((*it)->getMunicipality()==(*jt)->getMunicipality() && (*it)->getDistrict() == (*jt)->getDistrict()){
+                double val = getTrainsBetweenStations((*it)->getName(),(*jt)->getName());
+                vals[{(*it)->getDistrict(),(*jt)->getMunicipality()}] += (val>0 ? val:0);
             }
         }
     }
-
-    for (const auto& element : pairBudgets){
-        returnPairs.emplace_back(element);
+    std::vector<std::pair<std::pair<std::string, std::string>, double>> returnPairs;
+    returnPairs.reserve(vals.size());
+    for(const auto& item:vals){
+        returnPairs.emplace_back(item);
     }
-
-    std::sort(returnPairs.begin(), returnPairs.end(), [](const std::pair<std::pair<std::string, std::string>, double>& a, const std::pair<std::pair<std::string, std::string>, double>& b){
-        return a.second > b.second;
+    std::sort(returnPairs.begin(),returnPairs.end(),[](std::pair<std::pair<std::string, std::string>, double> p1, std::pair<std::pair<std::string, std::string>, double> p2){
+        return p1.second>p2.second;
     });
 
-    //Remove the super source and super sink stations from the graph
-    if(!removeStation("SuperSource")) std::cout << "SuperSource not removed" << std::endl;
-    if(!removeStation("SuperSink")) std::cout << "SuperSink not removed" << std::endl;
+    return returnPairs;
+}
+
+std::vector<std::pair<std::string, double>> Graph::largerBudgetsDistricts() {
+    std::map<std::string, double> vals;
+    for(auto it = stations.begin(); it != stations.end(); it++){
+        for(auto jt = it; jt != stations.end(); jt++){
+            if((*it)->getDistrict() == (*jt)->getDistrict()){
+                double val = getTrainsBetweenStations((*it)->getName(),(*jt)->getName());
+                vals[(*it)->getDistrict()] += (val>0 ? val:0);
+            }
+        }
+    }
+    std::vector<std::pair<std::string, double>> returnPairs;
+    returnPairs.reserve(vals.size());
+    for(const auto& item:vals){
+        returnPairs.emplace_back(item);
+    }
+    std::sort(returnPairs.begin(),returnPairs.end(),[](std::pair<std::string, double> p1, std::pair<std::string, double> p2){
+        return p1.second>p2.second;
+    });
 
     return returnPairs;
 }
