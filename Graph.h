@@ -64,7 +64,8 @@ public:
     */
     double getTrainsBetweenStations(const std::string& source, const std::string& destiny);
     std::vector<std::pair<std::pair<std::string, std::string>, double>> pairsWithMostTrains();
-    std::vector<std::pair<std::pair<std::string, std::string>, double>> largerBudgets();
+    std::vector<std::pair<std::pair<std::string, std::string>, double>> largerBudgetsMunicipalities();
+    std::vector<std::pair<std::string, double>> largerBudgetsDistricts();
     /**
     * @brief Calculates the total number of trains arriving at a given station using the Edmonds-Karp algorithm.
     * @param stationName The name of the station for which the arriving trains should be calculated.

@@ -9,7 +9,7 @@
 
 class Line_Reliability: public Menu{
 public:
-    explicit Line_Reliability(const Graph &graph, const Graph &directedGraph);
+    explicit Line_Reliability(const Graph &graph);
     bool start();
     void reducedMaxTrainsAB();
     void stationSegmentFailure();

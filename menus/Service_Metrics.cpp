@@ -4,7 +4,7 @@
 
 #include "Service_Metrics.h"
 
-Service_Metrics::Service_Metrics(const Graph &graph, const Graph &directedGraph): Menu(graph, directedGraph) {}
+Service_Metrics::Service_Metrics(const Graph &graph): Menu(graph) {}
 
 bool Service_Metrics::start() {
     std::cout << "|-----------------------------------------------------------|\n";
@@ -216,28 +216,16 @@ void Service_Metrics::upTheBudget() {
                 }
             }
 
-                std::vector<std::pair<std::pair<std::string, std::string>, double>> values;
-                values = directedGraph.largerBudgets();
+                std::vector<std::pair<std::string, double>> values;
+                values = graph.largerBudgetsDistricts();
                 std::map<std::string, double> valuesMap;
-                for(auto element : values){
-                    valuesMap[element.first.first] += element.second;
-                }
-
-                std::vector<std::pair<std::string, double>> valuesVector;
-                for(const auto& element : valuesMap){
-                    valuesVector.push_back(element);
-                }
-
-                std::sort(valuesVector.begin(), valuesVector.end(), [](std::pair<std::string, double> a, std::pair<std::string, double> b){
-                    return a.second > b.second;
-                });
 
                 int j = 0;
                 std::cout << "| The top " << i << " districts where the budget should be            |\n";
                 std::cout << "| increased are:                                            |\n";
-                for(const auto& element : valuesVector){
-                    std::cout << "| District nº " << ++j << ": " << element.first << ", since it has a total of " << element.second <<"         |\n";
-                    std::cout << "| trains flowing at top capacity                            |\n";
+                for(const auto& element : values){
+                    std::cout << "| District nº " << ++j << ": " << element.first << ", since it has a total of " << element.second <<",        |\n";
+                    std::cout << "| considering the top capacity of all pairs in the district                       |\n";
                     if(j==std::stoi(i)) break;
                 }
 
@@ -260,34 +248,21 @@ void Service_Metrics::upTheBudget() {
             }
 
                 std::vector<std::pair<std::pair<std::string, std::string>, double>> values;
-                values = directedGraph.largerBudgets();
-                std::map<std::pair<std::string, std::string>, double> valuesMap;
-
-                for(auto element : values){
-                    valuesMap[element.first] += element.second;
-                }
-
-                std::vector<std::pair<std::pair<std::string, std::string>, double>> valuesVector;
-                for(auto element : valuesMap){
-                    valuesVector.push_back(element);
-                }
-
-                std::sort(valuesVector.begin(), valuesVector.end(), [](std::pair<std::pair<std::string, std::string>, double> a, std::pair<std::pair<std::string, std::string>, double> b){
-                    return a.second > b.second;
-                });
+                values = graph.largerBudgetsMunicipalities();
 
                 std::cout << "| The top " << i << " municipalities where the budget should          |\n";
                 std::cout << "| be increased are:                                         |\n";
 
                 int j = 0;
-                for(auto element : valuesVector){
+                for(auto element : values){
                     if(element.first.first != ""){
                         std::cout << "| Municipality nº " << ++j << ": " << element.first.second << ", in district " << element.first.first;
                         for(int k = 0; k < 59 - element.first.first.size() - element.first.second.size() - 33; k++) std::cout << " ";
                         std::cout << "|\n";
-                        std::cout << "| since it has a total of " << element.second << " trains flowing at top capacity";
-                        for(int k = 0; k < 59-56 - (element.second > 10 ? 2 : 1); k++) std::cout << " ";
+                        std::cout << "| since it has a total of " << element.second << " trains, considering";
+                        for(int k = 0; k < 59-45 - (element.second > 10 ? 2 : 1); k++) std::cout << " ";
                         std::cout << "|\n";
+                        std::cout << "| the top capacity of all pairs in the municipality                     |\n";
                     }
                     if(j == std::stoi(i)){
                         break;
