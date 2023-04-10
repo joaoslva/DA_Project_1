@@ -9,7 +9,7 @@
 
 class Operation_Cost_optimization: public Menu {
 public:
-    explicit Operation_Cost_optimization(const Graph &graph, const Graph &directedGraph);
+    explicit Operation_Cost_optimization(const Graph &graph);
     void optimalCost();
     void help();
     bool start();

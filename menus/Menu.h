@@ -15,9 +15,8 @@
 class Menu {
 protected:
     Graph graph;
-    Graph directedGraph;
 public:
-    explicit Menu(const Graph &graph, const Graph &directedGraph);
+    explicit Menu(const Graph &graph);
     void start();
     void help();
     void returnMessage();

@@ -10,7 +10,7 @@
 
 class Service_Metrics: public Menu {
 public:
-    explicit Service_Metrics(const Graph &graph, const Graph &directedGraph);
+    explicit Service_Metrics(const Graph &graph);
     void help();
     bool start();
     void maxTrainsAB();
