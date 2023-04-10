@@ -1,7 +1,3 @@
-//
-// Created by Joao on 3/28/2023.
-//
-
 #ifndef PROJETO_1_STATIONRAILWAY_H
 #define PROJETO_1_STATIONRAILWAY_H
 
@@ -11,7 +7,6 @@
 
 class Railway;
 
-/* Station class */
 class Station{
 public:
     Station();
@@ -35,25 +30,22 @@ public:
      * @note Time complexity: O(k) where k is the number of incoming railways to the destiny station.
      */
     void deleteRailway(Railway* railway);
+
     //Getters
     const std::string &getName() const;
     const std::string &getDistrict() const;
     const std::string &getMunicipality() const;
-    const std::string &getTownship() const;
     const std::string &getLine() const;
     int getId() const;
     std::vector<Railway*> getOutgoingRailways() const;
     std::vector<Railway*> getIncomingRailways() const;
     bool isVisited() const;
-    bool isProcessing() const;
     int getDistance() const;
     Railway* getPath() const;
     int getBottleneck() const;
 
     //Setters
-    void setID(int id);
     void setVisited(bool visited);
-    void setProcessing(bool processing);
     void setDistance(int distance);
     void setPath(Railway* previousRailway);
     void setBottleneck(int bottleneck);
@@ -73,9 +65,8 @@ public:
     bool operator< (const Station station) const{
         return this->getDistance() < station.getDistance();
     }
-
 protected:
-    int queueIndex;
+    int queueIndex = 0; // required by MutablePriorityQueue
 
 private:
     //Fields read from the csv file
@@ -92,7 +83,6 @@ private:
     std::vector<Railway*> incomingRailways;
 
     bool visited = false;
-    bool processing = false;
 
     int distance;
     int bottleneck;

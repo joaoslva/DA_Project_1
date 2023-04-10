@@ -65,10 +65,6 @@ const std::string &Station::getMunicipality() const {
     return municipality;
 }
 
-const std::string &Station::getTownship() const {
-    return township;
-}
-
 const std::string &Station::getLine() const {
     return line;
 }
@@ -89,10 +85,6 @@ bool Station::isVisited() const {
     return visited;
 }
 
-bool Station::isProcessing() const {
-    return processing;
-}
-
 int Station::getDistance() const {
     return distance;
 }
@@ -101,16 +93,8 @@ int Station::getBottleneck() const{
     return bottleneck;
 }
 
-void Station::setID(int id) {
-    Station::id = id;
-}
-
 void Station::setVisited(bool visited) {
     Station::visited = visited;
-}
-
-void Station::setProcessing(bool processing) {
-    Station::processing = processing;
 }
 
 void Station::setDistance(int distance) {

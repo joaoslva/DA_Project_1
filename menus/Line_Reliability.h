@@ -1,7 +1,3 @@
-//
-// Created by Joao on 4/1/2023.
-//
-
 #ifndef PROJETO_1_LINE_RELIABILITY_H
 #define PROJETO_1_LINE_RELIABILITY_H
 
