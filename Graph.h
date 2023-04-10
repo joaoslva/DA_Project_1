@@ -20,13 +20,11 @@ public:
     Station* findStation(const std::string &name) const;
     std::vector<Station*> getStations() const;
     bool removeStation(const std::string& name);
+    int getDistrictNumber() const;
+    int getMunicipalityNumber() const;
 
-
-
-    //Edmonds-Karp and auxiliary functions
     void visitStation(std::queue<Station*> &queue, Railway* railway, Station* station, double residualCapacity);
     bool findPath(Station* source, Station* destiny);
-
 
     /**
     * @brief Calculates the minimum residual capacity along the path from source to destiny station.

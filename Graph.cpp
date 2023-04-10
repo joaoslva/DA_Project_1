@@ -202,6 +202,7 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::pairs
         }
         std::cout << "] " << static_cast<int>(progress * 100.0) << "% " << std::flush;
     }
+
     std::cout << std::endl;
     std::cout << "| Done!                                                     |\n";
     std::cout << "|                                                           |\n";
@@ -223,8 +224,15 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::pairs
     return returnPairs;
 }
 
+
 std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::largerBudgetsMunicipalities() {
     std::map<std::pair<std::string, std::string>, double> vals;
+    int max = stations.size();
+    int j = 0;
+    std::cout << "| Calculating:                                              |" << std::endl;
+    sleep(3);
+    std::cout << "| [                    ]" << std::flush; // initial progress bar
+
     for(auto it = stations.begin(); it != stations.end(); it++){
         for(auto jt = it; jt != stations.end(); jt++){
             if((*it)->getMunicipality()==(*jt)->getMunicipality() && (*it)->getDistrict() == (*jt)->getDistrict()){
@@ -232,12 +240,30 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::large
                 vals[{(*it)->getDistrict(),(*jt)->getMunicipality()}] += (val>0 ? val:0);
             }
         }
+        ++j;
+        float progress = static_cast<float>(j) / static_cast<float>(max);
+        int barWidth = 20;
+        std::cout << "\r| [";
+        int pos = static_cast<int>(barWidth * progress);
+        for (int i = 0; i < barWidth; ++i) {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << " ";
+        }
+        std::cout << "] " << static_cast<int>(progress * 100.0) << "% " << std::flush;
     }
+
+    std::cout << std::endl;
+    std::cout << "| Done!                                                     |\n";
+    std::cout << "|                                                           |\n";
+
     std::vector<std::pair<std::pair<std::string, std::string>, double>> returnPairs;
     returnPairs.reserve(vals.size());
+
     for(const auto& item:vals){
         returnPairs.emplace_back(item);
     }
+
     std::sort(returnPairs.begin(),returnPairs.end(),[](std::pair<std::pair<std::string, std::string>, double> p1, std::pair<std::pair<std::string, std::string>, double> p2){
         return p1.second>p2.second;
     });
@@ -247,6 +273,11 @@ std::vector<std::pair<std::pair<std::string, std::string>, double>> Graph::large
 
 std::vector<std::pair<std::string, double>> Graph::largerBudgetsDistricts() {
     std::map<std::string, double> vals;
+    int max = stations.size();
+    int j = 0;
+    std::cout << "| Calculating:                                              |" << std::endl;
+    sleep(3);
+    std::cout << "| [                    ]" << std::flush; // initial progress bar
     for(auto it = stations.begin(); it != stations.end(); it++){
         for(auto jt = it; jt != stations.end(); jt++){
             if((*it)->getDistrict() == (*jt)->getDistrict()){
@@ -254,12 +285,30 @@ std::vector<std::pair<std::string, double>> Graph::largerBudgetsDistricts() {
                 vals[(*it)->getDistrict()] += (val>0 ? val:0);
             }
         }
+        ++j;
+        float progress = static_cast<float>(j) / static_cast<float>(max);
+        int barWidth = 20;
+        std::cout << "\r| [";
+        int pos = static_cast<int>(barWidth * progress);
+        for (int i = 0; i < barWidth; ++i) {
+            if (i < pos) std::cout << "=";
+            else if (i == pos) std::cout << ">";
+            else std::cout << " ";
+        }
+        std::cout << "] " << static_cast<int>(progress * 100.0) << "% " << std::flush;
     }
+
+    std::cout << std::endl;
+    std::cout << "| Done!                                                     |\n";
+    std::cout << "|                                                           |\n";
+
     std::vector<std::pair<std::string, double>> returnPairs;
     returnPairs.reserve(vals.size());
+
     for(const auto& item:vals){
         returnPairs.emplace_back(item);
     }
+
     std::sort(returnPairs.begin(),returnPairs.end(),[](std::pair<std::string, double> p1, std::pair<std::string, double> p2){
         return p1.second>p2.second;
     });
@@ -513,4 +562,24 @@ std::vector<std::pair<std::pair<std::string, double>,double>> Graph::stationSegm
         addBidirectionalRailway(railway.getSourceStationString(),railway.getDestinyStationString(),railway);
     }
     return ans;
+}
+
+int Graph::getDistrictNumber() const {
+    std::vector<std::string> districtNames;
+    for(auto station:stations){
+        if(std::find(districtNames.begin(),districtNames.end(),station->getDistrict())==districtNames.end()){
+            districtNames.push_back(station->getDistrict());
+        }
+    }
+    return districtNames.size();
+}
+
+int Graph::getMunicipalityNumber() const {
+    std::vector<std::string> municipalityNames;
+    for(auto station:stations){
+        if(std::find(municipalityNames.begin(),municipalityNames.end(),station->getMunicipality())==municipalityNames.end()){
+            municipalityNames.push_back(station->getMunicipality());
+        }
+    }
+    return municipalityNames.size();
 }
