@@ -136,7 +136,7 @@ void Operation_Cost_optimization::optimalCost(){
             }
             std::cout << "|\n";
             std::cout<< "| The total cost of operation is: " << maxTrains << "€";
-            for(int i = 0; i < 59 - 34; i++){
+            for(int i = 0; i < 59 - 34 - (maxTrains >= 10 ? (maxTrains >= 100 ? 3 : 2) : 1); i++){
                 std::cout << " ";
             }
             std::cout << "|\n";

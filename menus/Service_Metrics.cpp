@@ -151,6 +151,7 @@ void Service_Metrics::maxTrainsAB() {
             std::cout << "|\n";
             std::cout << "| Destiny station: " << destinyStation;
             for(int i = 0; i < 59 - destinyStation.length() - 18; i++) std::cout << " ";
+            std::cout << "|\n";
             std::cout << "| Maximum number of trains between them: " << maxTrains;
             for(int i = 0; i < 59 - (maxTrains > 10 ? 2 : 1) - 27; i++) std::cout << " ";
             std::cout << "|\n";
@@ -218,7 +219,7 @@ void Service_Metrics::upTheBudget() {
                     }
                     else if(std::stoi(option1) > graph.getDistrictNumber()){
                         std::cout << "| Input out of bounds, the maximum number of                |\n";
-                        std::cout << "| districts is " << graph.getDistrictNumber();
+                        std::cout << "| districts is " << graph.getDistrictNumber() - 1;
                         for(int k = 0; k < 59 - (graph.getDistrictNumber() > 10 ? 2 : 1) - 14; k++) std::cout << " ";
                         std::cout << "|\n";
                         std::cout << "|                                                           |\n";
