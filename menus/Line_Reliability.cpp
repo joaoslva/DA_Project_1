@@ -261,7 +261,7 @@ void Line_Reliability::stationSegmentFailure(){
         }
         else if(option == "c"){
             while (running){
-                bool found = false;
+                bool found = false, inVector = false;
                 std::cout << "| Enter the source station: ";
                 std::getline(std::cin, sourceStation);
                 std::cout << "| Enter the destiny station: ";
@@ -272,35 +272,40 @@ void Line_Reliability::stationSegmentFailure(){
                     std::cout << "|                                                           |\n";
                     std::cout << "| Source and destiny don't not exist                        |\n";
                     std::cout << "|                                                           |\n";
-                    continue;
-                }
-                if(s== nullptr){
+                } else if(s== nullptr){
                     std::cout << "|                                                           |\n";
                     std::cout << "| Source does not exist                                     |\n";
                     std::cout << "|                                                           |\n";
-                    continue;
-                }
-                if(d == nullptr){
+                } else if(d == nullptr){
                     std::cout << "|                                                           |\n";
                     std::cout << "| Destiny does not exist                                    |\n";
                     std::cout << "|                                                           |\n";
-                    continue;
-                }
-                for(auto railway: s->getOutgoingRailways()){
-                    if (railway->getDestinyStationString()==d->getName()){
-                        railways.push_back(railway);
-                        found= true;
+                } else {
+                    for(auto railway: s->getOutgoingRailways()){
+                        if (railway->getDestinyStationString()==d->getName()){
+                            if(std::find(railways.begin(),railways.end(),railway) == railways.end() &&
+                               std::find(railways.begin(),railways.end(),railway->getReverseRailway()) == railways.end()){
+                                railways.push_back(railway);
+                            }
+                            else{
+                                std::cout << "|                                                           |\n";
+                                std::cout << "| Railway already inserted into the vector!                 |\n";
+                                std::cout << "|                                                           |\n";
+                                inVector = true;
+                            }
+                            found = true;
+                        }
                     }
-                }
-                if(!found){
-                    std::cout << "|                                                           |\n";
-                    std::cout << "| No connection between source and destiny stations         |\n";
-                    std::cout << "|                                                           |\n";
-                }
-                else{
-                    std::cout << "|                                                           |\n";
-                    std::cout << "| Railway found! Successfully added to vector               |\n";
-                    std::cout << "|                                                           |\n";
+                    if(!found){
+                        std::cout << "|                                                           |\n";
+                        std::cout << "| No connection between source and destiny stations         |\n";
+                        std::cout << "|                                                           |\n";
+                    }
+                    else if (!inVector){
+                        std::cout << "|                                                           |\n";
+                        std::cout << "| Railway found! Successfully added to vector               |\n";
+                        std::cout << "|                                                           |\n";
+                    }
                 }
                 if (!railways.empty()){
                     std::string op;
@@ -385,7 +390,6 @@ void Line_Reliability::stationSegmentFailure(){
 
         for(int i=0; i<res.size();i++){
             if(kNum<(i+1)) break;
-            //std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first << "(" << res[i].first.second << "->" << res[i].second << ")\n";
             std::cout << "| Station nº " << (i+1) << ": " << res[i].first.first;
             for(int j=0; j < 59 - (i+1 >= 10 ? (i+1 >= 100 ? 3 : 2) : 1) - 14 - res[i].first.first.length(); j++) std::cout << " ";
             std::cout << "|\n";
